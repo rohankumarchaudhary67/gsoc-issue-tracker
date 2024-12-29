@@ -1,84 +1,64 @@
-# Turborepo starter
+# GSoC Issue Tracker
 
-This is an official starter Turborepo.
+## Overview
+The **GSoC Issue Tracker** is an AI-integrated application designed to streamline issue management in open-source projects. It provides automated issue summaries, intelligent solution suggestions, and facilitates seamless discussions among contributors.
 
-## Using this example
+## Features
+- 📝 **AI-Powered Summaries:** Automatically generates concise summaries for issues.
+- 💡 **Solution Suggestions:** Offers potential solutions based on issue descriptions.
+- 💬 **Discussion Facilitation:** Enhances communication with context-aware prompts.
+- 📊 **Analytics Dashboard:** Visual insights into issue trends and resolutions.
 
-Run the following command:
+## Tech Stack
+- **Frontend:** React.js with Next.js
+- **Backend:** Node.js with Express
+- **Database:** Postgres SQL with Prisma ORM
+- **AI Integration:** Google Gemini (gemini-1.5-flash)
+- **Monorepo Management:** Turborepo
 
-```sh
-npx create-turbo@latest
-```
+## Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/rohankumarchaudhary67/gsoc-issue-tracker.git
+   ```
+2. Install dependencies:
+   ```bash
+   cd gsoc-issue-tracker
+   npm install
+   ```
+3. Build the project:
+   ```bash
+   npm build
+   ```
+4. Start the development server:
+   ```bash
+   npm dev
+   ```
 
-## What's inside?
+## Configuration
+- Copy `.env.example` to `.env` and update the environment variables.
+- Configure your OpenAI API key and MongoDB URI.
 
-This Turborepo includes the following packages/apps:
+## Scripts
+- `npm dev`: Start development server.
+- `npm build`: Build the project.
+- `npm lint`: Run ESLint.
 
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm dev
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
+## Remote Caching with Vercel
+Enable remote caching for better performance in CI/CD:
+```bash
 npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
 npx turbo link
 ```
 
-## Useful Links
+## Contribution
+Contributions are welcome! Please follow these steps:
+1. Fork the repository.
+2. Create a feature branch.
+3. Submit a pull request.
 
-Learn more about the power of Turborepo:
+## License
+This project is licensed under the MIT License.
 
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+## Contact
+For any inquiries, reach out via [GitHub Issues](https://github.com/rohankumarchaudhary67/gsoc-issue-tracker/issues).
