@@ -44,13 +44,6 @@ The **GSoC Issue Tracker** is an AI-integrated application designed to streamlin
 - `npm build`: Build the project.
 - `npm lint`: Run ESLint.
 
-## Remote Caching with Vercel
-Enable remote caching for better performance in CI/CD:
-```bash
-npx turbo login
-npx turbo link
-```
-
 ## Contribution
 Contributions are welcome! Please follow these steps:
 1. Fork the repository.
