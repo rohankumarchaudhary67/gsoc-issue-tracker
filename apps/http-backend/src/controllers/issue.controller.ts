@@ -31,7 +31,8 @@ const fetchAll = asyncHandler(
 )
 
 const fetch = asyncHandler(async (req: Request, res: Response): Promise<any> => {
-    const { email, id } = req.body;
+    const { id } = req.body;
+    const email = req.body.email;
 
     // Fetch user and validate open issue limit
     const user = await prisma.user.findUnique({
@@ -72,7 +73,7 @@ const fetch = asyncHandler(async (req: Request, res: Response): Promise<any> => 
     // Update the user's open issue limit
     await prisma.user.update({
         where: { email },
-        data: { openIssueLimit: user.openIssueLimit + 1 }
+        data: { currentOpenIssue: user.currentOpenIssue + 1 }
     });
 
     // Send the response
