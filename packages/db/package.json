@@ -1,0 +1,24 @@
+{
+  "name": "@repo/db",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "exports": {
+    "./db": "./src/prisma.ts"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^6.2.1",
+    "@repo/typescript-config": "workspace:*",
+    "dotenv": "^16.4.7",
+    "prisma": "^6.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.6"
+  }
+}
