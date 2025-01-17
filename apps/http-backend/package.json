@@ -9,14 +9,15 @@
     "start": "node dist/index.js"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "@repo/db": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
-    "ts-node": "^10.9.2",
-    "@repo/db": "workspace:*"
+    "ts-node": "^10.9.2"
   },
   "keywords": [],
   "author": "",
