@@ -5,11 +5,18 @@ import { ApiResponse } from "../utils/api-response";
 import prisma from "@repo/db/db";
 
 const askAiQuestion = asyncHandler(async (req: Request, res: Response): Promise<any> => {
+    const user = req.body.user;
     const { question, issueId } = req.body;
 
     if (!question || !issueId) {
         return res.status(400).json(
             new ApiResponse(400, "Question & issueId is required")
+        );
+    }
+
+    if(user.aiQuestionLimit <= user.currentAiQuestion) {
+        return res.status(400).json(
+            new ApiResponse(400, "freeTrial limit reached")
         );
     }
 
@@ -36,7 +43,13 @@ const askAiQuestion = asyncHandler(async (req: Request, res: Response): Promise<
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const result = await model.generateContent(prompt);
-    console.log(result.response.text());
+    
+    await prisma.user.update({
+        where: { id: user.id },
+        data: {
+            currentAiQuestion: user.currentAiQuestion + 1,
+        },
+    });
 
     return res.status(200).json(
         new ApiResponse(200, result.response.text(), "AI question asked successfully")
