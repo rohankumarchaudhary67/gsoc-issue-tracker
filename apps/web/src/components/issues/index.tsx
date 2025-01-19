@@ -9,12 +9,14 @@ import {
 import { IoChatboxEllipsesSharp } from "react-icons/io5";
 import { Button } from "../ui/button";
 import IssueCard from "./issue-card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 
 export default function IssuesComp() {
     return (
         <>
             <div className="pt-4">
-                <div className="flex items-center justify-between space-x-4 border-b pb-4">
+                <div className="flex items-center justify-between space-x-4 pb-4">
                     <div className="w-full">
                         <Input placeholder="Search Issues" />
                     </div>
@@ -40,28 +42,59 @@ export default function IssuesComp() {
                     </Select>
                 </div>
 
-                <div className="flex justify-between items-start space-x-4 pt-8 p-2">
+                <div className="flex justify-between items-start space-x-4 pt-4 p-2">
                     <div className="w-full flex flex-col justify-start items-start space-y-4">
                         <div>
                             <h1 className="font-bold text-xl md:text-2xl">Avilable Issues</h1>
                         </div>
-                        <div className="w-full flex flex-col space-y-4 items-start justify-start space-y-4">
-                            <IssueCard />
-                            <IssueCard />
-                            <IssueCard />
+                        <div className="w-full">
+                            <ScrollArea className="w-full h-[75vh] overflow-y-auto">
+                                <div className="w-full flex flex-col items-start justify-start space-y-4">
+                                    <IssueCard />
+                                    <IssueCard />
+                                    <IssueCard />
+                                    <IssueCard />
+                                    <IssueCard />
+                                    <IssueCard />
+                                    <IssueCard />
+                                    <IssueCard />
+                                    <IssueCard />
+                                    <IssueCard />
+                                    <IssueCard />
+                                    <IssueCard />
+                                    <IssueCard />
+                                    <IssueCard />
+                                    <IssueCard />
+                                    <IssueCard />
+                                    <IssueCard />
+                                    <IssueCard />
+                                    <IssueCard />
+                                </div>
+                            </ScrollArea>
                         </div>
                     </div>
 
-                    <div className="border-2 p-4 rounded-lg flex flex-col space-y-2 items-start justify-start max-w-lg">
-                        <div className="flex items-start justify-start space-x-2">
-                            <span className="text-xl"><IoChatboxEllipsesSharp /></span>
-                            <span className="text-xl font-bold">AI Assistant</span>
-                        </div>
-                        <p className="font-light text-gray-400">Ask AI Assistant to help you with your issues and get AI-powered guidance</p>
-                        <div className="flex flex-col space-y-4 items-start justify-center w-full">
-                            <Input placeholder="Ask AI Assistant" />
-                            <Button className="w-full font-bold">Ask AI Assistant</Button>
-                        </div>
+                    <div>
+                        <Card className="max-w-lg">
+                            <CardHeader>
+                                <div className="flex items-center justify-start space-x-2 text-xl font-semibold">
+                                    <IoChatboxEllipsesSharp />
+                                    <span>AI Assistant</span>
+                                </div>
+                            </CardHeader>
+                            <CardContent>
+                                <p className="text-sm text-gray-400">Ask AI Assistant to help you with your issues and get AI-powered guidance</p>
+                            </CardContent>
+                            <CardFooter className="flex flex-wrap items-start justify-start space-y-6">
+                                <Input placeholder="Ask AI Assistant" />
+                                <Button className="w-full font-bold">Ask AI Assistant</Button>
+                                <div className="border-t pt-2">
+                                    <ScrollArea className="h-[40vh] overflow-y-auto">
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui quidem enim quasi, fugiat temporibus perspiciatis repellendus rem saepe facere tempore molestias asperiores eveniet, molestiae adipisci. Explicabo, ducimus nam? Quis consectetur magnam labore accusantium quos adipisci alias cumque et a eligendi voluptates, odit suscipit! Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui quidem enim quasi, fugiat temporibus perspiciatis repellendus rem saepe facere tempore molestias asperiores eveniet, molestiae adipisci. Explicabo, ducimus nam? Quis consectetur magnam labore accusantium quos adipisci alias cumque et a eligendi voluptates, odit suscipit! Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui quidem enim quasi, fugiat temporibus perspiciatis repellendus rem saepe facere tempore molestias asperiores eveniet, molestiae adipisci. Explicabo, ducimus nam? Quis consectetur magnam labore accusantium quos adipisci alias cumque et a eligendi voluptates, odit suscipit!</p>
+                                    </ScrollArea>
+                                </div>
+                            </CardFooter>
+                        </Card>
                     </div>
                 </div>
             </div>

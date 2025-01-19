@@ -12,7 +12,7 @@ export default async function Navbar() {
 
     return (
         <>
-            <div className="fixed h-16 border-b flex  backdrop-blur-lg justify-center items-center w-full ">
+            <div className="fixed h-16 border-b flex  backdrop-blur-lg justify-center items-center w-full z-50">
                 <div className="h-8 w-full paddings flex justify-between items-center">
                     <Link href={"/issues"}>
                         <div className="flex justify-center items-center space-x-3">
