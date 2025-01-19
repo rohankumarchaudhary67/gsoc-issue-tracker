@@ -75,7 +75,7 @@ export default function IssuesComp() {
                     </div>
 
                     <div>
-                        <Card className="max-w-lg">
+                        <Card className="max-w-xl">
                             <CardHeader>
                                 <div className="flex items-center justify-start space-x-2 text-xl font-semibold">
                                     <IoChatboxEllipsesSharp />

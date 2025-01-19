@@ -7,6 +7,7 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import Link from "next/link"
 
 
 export default function IssueCard() {
@@ -14,7 +15,9 @@ export default function IssueCard() {
         <>
             <Card className="w-full">
                 <CardHeader>
-                    <CardTitle className="md:text-xl">Implement OAuth2 Authentication Flow</CardTitle>
+                    <Link href={"/issues/1"}>
+                        <CardTitle className="md:text-xl">Implement OAuth2 Authentication Flow</CardTitle>
+                    </Link>
                     <div className="flex space-x-6 items-start justify-start">
                         <CardDescription>Python</CardDescription>
                         <CardDescription>Tensforlow</CardDescription>
