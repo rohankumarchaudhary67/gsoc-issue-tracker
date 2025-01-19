@@ -50,7 +50,7 @@ export default function Pricing() {
       buttonColor: "bg-pink-600",
       buttonHoverColor: "bg-pink-800",
       buttonActiveColor: "text-gray-700",
-      buttonTextColor: "text-secondary-foreground",
+      buttonTextColor: "text-white",
       offset: true
     },
     {

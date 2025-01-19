@@ -3,7 +3,7 @@ import { Button } from "../ui/button";
 export default function Header() {
     return (
         <>
-            <div className="flex justify-center items-center md:pt-16">
+            <div className="flex justify-center items-center">
                 <div className="pb-24">
                     <p className="text-center text-4xl sm:text-7xl font-bold z-20 bg-clip-text text-transparent bg-gradient-to-b from-blue-900 to-blue-600 py-8">
                         Discover Perfect <br /> Open Source Issues

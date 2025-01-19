@@ -14,7 +14,7 @@ const askAiQuestion = asyncHandler(async (req: Request, res: Response): Promise<
         );
     }
 
-    if(user.aiQuestionLimit <= user.currentAiQuestion) {
+    if (user.aiQuestionLimit <= user.currentAiQuestion) {
         return res.status(400).json(
             new ApiResponse(400, "freeTrial limit reached")
         );
@@ -36,14 +36,14 @@ const askAiQuestion = asyncHandler(async (req: Request, res: Response): Promise<
         - Description : ${issue.body}
         - Labels : ${issue.labels}
         - issueURL : ${issue.url}
-
-    Now, you need to answer the question : ${question} and give in paragraph format.`;
+    Now, you need to answer the question : ${question} and give in paragraph format.
+    `;
 
     const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_AI_API_KEY!);
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const result = await model.generateContent(prompt);
-    
+
     await prisma.user.update({
         where: { id: user.id },
         data: {

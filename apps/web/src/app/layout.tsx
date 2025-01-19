@@ -28,7 +28,7 @@ export default function RootLayout({
         >
           <Session_Provider>
             <Navbar />
-            {children}
+            <div className="pt-16">{children}</div>
             <Toaster richColors />
           </Session_Provider>
         </ThemeProvider>
