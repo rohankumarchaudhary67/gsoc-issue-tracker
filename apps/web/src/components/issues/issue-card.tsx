@@ -1,6 +1,5 @@
 import {
     Card,
-    CardContent,
     CardDescription,
     CardFooter,
     CardHeader,
@@ -8,22 +7,9 @@ import {
 } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
+import IssueArrayType from "@/types"
 
-interface IssueCardProps {
-    issue: {
-        id: string
-        repository: string
-        url: string
-        number: number
-        title: string
-        state: string
-        comments: number
-        labels: string[]
-        createdAt: string
-    };
-}
-
-export default function IssueCard({ issue }: IssueCardProps) {
+export default function IssueCard({ issue }: IssueArrayType) {
     return (
         <>
             <Card className="w-full">

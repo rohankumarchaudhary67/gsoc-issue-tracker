@@ -80,6 +80,7 @@ const fetch = asyncHandler(async (req: Request, res: Response): Promise<any> => 
                 labels: true,
                 createdAt: true,
                 updatedAt: true,
+                // Instead of fetching bookmarks, just check if the issue is bookmarked by the user
                 bookmarks: {
                     where: {
                         userId: user.id,
@@ -90,27 +91,29 @@ const fetch = asyncHandler(async (req: Request, res: Response): Promise<any> => 
                 },
             }
         });
-    
+
         if(!issue) {
             return res.status(404).json(
                 new ApiError(404, "No issue found")
             );
         }
 
+        const isBookmarked = issue.bookmarks.length > 0;
+
         await prisma.user.update({
             where: { id: user.id },
             data: { currentOpenIssue: user.currentOpenIssue + 1 }
         });
-    
+
+        // Include isBookmarked flag in the response
         res.status(200).json(
-            new ApiResponse(200, issue, "Issue fetched successfully")
+            new ApiResponse(200, { ...issue, isBookmarked }, "Issue fetched successfully")
         );
     } catch (error: any) {
         return res.status(500).json(
             new ApiError(500, "Internal server error")
         );
     }
-
 });
 
 

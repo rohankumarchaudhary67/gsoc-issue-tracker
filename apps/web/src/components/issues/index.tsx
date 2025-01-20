@@ -14,22 +14,11 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
-interface IssueCardProps {
-    id: string
-        repository: string
-        url: string
-        number: number
-        title: string
-        state: string
-        comments: number
-        labels: string[]
-        createdAt: string
-}
+import IssueType from "@/types/issue-type";
 
 export default function IssuesComp({session}: {session: any}) {
 
-    const [issues, setIssues] = useState<IssueCardProps[]>([]);
+    const [issues, setIssues] = useState<IssueType[]>([]);
 
     const fetchAll = async () => {
         const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/issue/fetchAll`, {

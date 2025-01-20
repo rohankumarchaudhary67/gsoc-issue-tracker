@@ -1,55 +1,72 @@
+'use client'
 import { Badge } from "@/components/ui/badge";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { IoChatboxEllipsesSharp } from "react-icons/io5";
 import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { FaArrowRight, FaBookmark, FaRegBookmark } from "react-icons/fa";
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import axios from 'axios';
+import IssueType from "@/types/issue-type";
 
-export default function IssueId({ issueId }: { issueId: string | string[] | undefined }) {
+
+export default function IssueId({ issueId, session }: { issueId: string | string[] | undefined, session: any }) {
+
+    const [issue, setIssue] = useState<IssueType>();
+
+    const fetchIssue = async () => {
+
+        const accessToken = await session?.accessToken;
+        const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/issue/fetch`, {
+            id: issueId,
+        }, {
+            withCredentials: true,
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        console.log(res.data);
+        setIssue(res.data.data);
+    };
+
+    useEffect(() => {
+        fetchIssue();
+    }, [issueId]);
 
     return (
         <>
             <div className="flex justify-between items-start space-x-4">
                 <div className="pt-4 flex flex-col space-y-4 w-full">
                     <div className="flex items-center justify-between space-x-4">
-                        <span className="text-xl text-blue-300 font-bold">Tensorflow</span>
+                        <span className="text-xl text-blue-300 font-bold">{issue?.repository}</span>
                         <div className="flex space-x-4 items-center">
                             <span>No Assignee</span>
-                            <span className="text-white text-sm px-4 py-1 border bg-blue-600 rounded-full">0 Comments</span>
+                            <span className="text-white text-sm px-4 py-1 border bg-blue-600 rounded-full">{issue?.comments} Comments</span>
                         </div>
                     </div>
                     <div className="flex items-center justify-between md:pr-2">
                         <div>
-                            <h1 className="text-xl md:text-2xl font-semibold">Inplement OAuth2 Authentication Flow</h1>
-                            <p className="text-gray-500">Open #2712</p>
+                            <h1 className="text-xl md:text-2xl font-semibold">{issue?.title}</h1>
+                            <p className="text-gray-500">Open #{issue?.number}</p>
                         </div>
-                        <FaRegBookmark />
+                        {issue?.isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
                     </div>
-                    <p className="text-md font-light text-gray-200">We need to implement OAuth2 authentication flow for our application. This will allow users to authenticate with our application using their Google account. We need to implement OAuth2 authentication flow for our application. This will allow users to authenticate with our application using their Google account. We need to implement OAuth2 authentication flow for our application. This will allow users to authenticate with our application using their Google account. We need to implement OAuth2 authentication flow for our application. This will allow users to authenticate with our application using their Google account.</p>
                     <div className="flex flex-wrap items-start justify-start">
-                        <Badge variant={"outline"} className="rounded-full mx-1 my-1">authentication</Badge>
-                        <Badge variant={"outline"} className="rounded-full mx-1 my-1">good first issue</Badge>
-                        <Badge variant={"outline"} className="rounded-full mx-1 my-1">help wanted</Badge>
-                        <Badge variant={"outline"} className="rounded-full mx-1 my-1">help wanted</Badge>
-                        <Badge variant={"outline"} className="rounded-full mx-1 my-1">help wanted</Badge>
-                        <Badge variant={"outline"} className="rounded-full mx-1 my-1">help wanted</Badge>
-                        <Badge variant={"outline"} className="rounded-full mx-1 my-1">help wanted</Badge>
-                        <Badge variant={"outline"} className="rounded-full mx-1 my-1">help wanted</Badge>
-                        <Badge variant={"outline"} className="rounded-full mx-1 my-1">help wanted</Badge>
-                        <Badge variant={"outline"} className="rounded-full mx-1 my-1">help wanted</Badge>
-                        <Badge variant={"outline"} className="rounded-full mx-1 my-1">help wanted</Badge>
-                        <Badge variant={"outline"} className="rounded-full mx-1 my-1">help wanted</Badge>
-                        <Badge variant={"outline"} className="rounded-full mx-1 my-1">help wanted</Badge>
-                        <Badge variant={"outline"} className="rounded-full mx-1 my-1">help wanted</Badge>
+                        {issue?.labels.length != 0 ? (issue?.labels.map((label: string, index: number) => (
+                            <Badge key={index} variant={"outline"} className="rounded-full mx-1 my-1">{label}</Badge>
+                        ))) : (
+                            <div>
+                                <p>No label found</p>
+                            </div>
+                        )}
                     </div>
-                    <Link href={`/issues/${issueId}`} target={"_blank"} className="flex items-center justify-start space-x-1 text-blue-400">
+                    <Link href={issue?.url || ""} target={"_blank"} className="flex items-center justify-start space-x-1 text-blue-400">
                         <span className="font-semibold">View on GitHub</span>
                         <FaArrowRight />
                     </Link>
                     <div className="flex items-center justify-end space-x-1">
-                        <span className="text-gray-500">2025-01-17T17:26:20.447Z</span>
+                        <span className="text-gray-500">{issue?.createdAt}</span>
                     </div>
                 </div>
                 <div>
