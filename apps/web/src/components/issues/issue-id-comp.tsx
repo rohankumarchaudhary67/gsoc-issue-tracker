@@ -14,6 +14,7 @@ import IssueType from "@/types/issue-type";
 export default function IssueId({ issueId, session }: { issueId: string | string[] | undefined, session: any }) {
 
     const [issue, setIssue] = useState<IssueType>();
+    const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
 
     const fetchIssue = async () => {
 
@@ -26,13 +27,26 @@ export default function IssueId({ issueId, session }: { issueId: string | string
                 Authorization: `Bearer ${accessToken}`,
             },
         });
-        console.log(res.data);
         setIssue(res.data.data);
+        setIsBookmarked(res.data.data.isBookmarked);
+    };
+
+    const toggleBookmark = async () => {
+        setIsBookmarked(!isBookmarked);
+        const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/bookmark/toggleBookmark`, {
+            id: issueId
+        }, {
+            withCredentials: true,
+            headers: {
+                Authorization: `Bearer ${session?.accessToken}`,
+            },
+        });
+        setIsBookmarked(res.data.message === "Bookmark added successfully");
     };
 
     useEffect(() => {
         fetchIssue();
-    }, [issueId]);
+    }, []);
 
     return (
         <>
@@ -50,7 +64,9 @@ export default function IssueId({ issueId, session }: { issueId: string | string
                             <h1 className="text-xl md:text-2xl font-semibold">{issue?.title}</h1>
                             <p className="text-gray-500">Open #{issue?.number}</p>
                         </div>
-                        {issue?.isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
+                        <div onClick={toggleBookmark} className="cursor-pointer">
+                            {isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
+                        </div>
                     </div>
                     <div className="flex flex-wrap items-start justify-start">
                         {issue?.labels.length != 0 ? (issue?.labels.map((label: string, index: number) => (

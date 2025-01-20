@@ -4,10 +4,11 @@ import prisma from "@repo/db/db";
 import { ApiError } from "../utils/api-error";
 import { ApiResponse } from "../utils/api-response";
 
-const add = asyncHandler(async (req: Request, res: Response): Promise<any> => {
-    const {id} = req.body;
-    const user = req.body.user;
+const toggleBookmark = asyncHandler(async (req: Request, res: Response): Promise<any> => {
+    const { id } = req.body; // `id` of the issue
+    const user = req.body.user; // The user performing the action
 
+    // Check if the issue exists
     const issue = await prisma.issue.findUnique({
         where: { id },
     });
@@ -19,54 +20,46 @@ const add = asyncHandler(async (req: Request, res: Response): Promise<any> => {
     }
 
     try {
-        await prisma.userBookmark.create({
-            data: {
-                userId: user.id,
-                issueId: id,
-            },
-        });
-
-        res.status(200).json(
-            new ApiResponse(200, {}, "Bookmark added successfully")
-        );
-    } catch (error: any) {
-        return res.status(500).json(
-            new ApiError(500, "Internal server error")
-        );
-    }
-});
-
-const remove = asyncHandler(async (req: Request, res: Response): Promise<any> => {
-    const {id} = req.body;
-    const user = req.body.user;
-
-    const issue = await prisma.issue.findUnique({
-        where: { id },
-    });
-
-    if (!issue) {
-        return res.status(404).json(
-            new ApiError(404, "No issue found")
-        );
-    }
-
-    try {
-        await prisma.userBookmark.deleteMany({
+        // Check if the bookmark already exists
+        const existingBookmark = await prisma.userBookmark.findFirst({
             where: {
                 userId: user.id,
                 issueId: id,
             },
         });
 
-        res.status(200).json(
-            new ApiResponse(200, {}, "Bookmark removed successfully")
-        );
+        if (existingBookmark) {
+            // If the bookmark exists, remove it
+            await prisma.userBookmark.delete({
+                where: {
+                    id: existingBookmark.id,
+                },
+            });
+
+            return res.status(200).json(
+                new ApiResponse(200, {}, "Bookmark removed successfully")
+            );
+        } else {
+            // If the bookmark does not exist, create it
+            await prisma.userBookmark.create({
+                data: {
+                    userId: user.id,
+                    issueId: id,
+                },
+            });
+
+            return res.status(200).json(
+                new ApiResponse(200, {}, "Bookmark added successfully")
+            );
+        }
     } catch (error: any) {
+        // Handle errors
         return res.status(500).json(
             new ApiError(500, "Internal server error")
         );
     }
 });
+
 
 const fetchAll = asyncHandler(async (req: Request, res: Response): Promise<any> => {
     const user = req.body.user;
@@ -129,4 +122,4 @@ const fetchAll = asyncHandler(async (req: Request, res: Response): Promise<any> 
     }
 });
 
-export { add, remove, fetchAll };
+export { toggleBookmark, fetchAll };
