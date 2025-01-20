@@ -13,7 +13,7 @@ export default function AuthBtn() {
     };
 
     return (
-        <Button onClick={handleLogin} className="flex items-center gap-2">
+        <Button onClick={handleLogin} className="flex items-center gap-2 font-bold">
             Login with <FaGithub /> GitHub
         </Button>
     );

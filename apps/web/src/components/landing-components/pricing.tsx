@@ -10,8 +10,8 @@ const PriceCard = ({ plan } : any) => (
     
     <div className="flex flex-1 flex-col p-6 pt-8">
       <div className="mb-12">
-        <div className="mb-2 text-center text-2xl font-bold text-primary">{plan.title}</div>
-        <p className="mb-8 px-8 text-center text-secondary-foreground">{plan.description}</p>
+        <div className="mb-2 text-center text-2xl font-bold text-black dark:text-white">{plan.title}</div>
+        <p className="mb-8 px-8 text-center text-gray-700 dark:text-gray-400">{plan.description}</p>
         <div className="space-y-4">
           {plan.features.map((feature : any, i: any) => (
             <div key={i} className="flex items-center gap-2">
@@ -19,7 +19,7 @@ const PriceCard = ({ plan } : any) => (
                 <circle cx="8" cy="8" r="8" fill="currentColor" className={plan.dotColor} />
                 <circle cx="8" cy="8" r="3" fill="currentColor" className="dark:text-black text-white" />
               </svg>
-              <span className="text-primary">{feature}</span>
+              <span className="text-black dark:text-white">{feature}</span>
             </div>
           ))}
         </div>
