@@ -3,22 +3,22 @@ import repoList from '../repo-list';
 import prisma from '@repo/db/db';
 
 interface IssueProps {
-    repository: string
-    html_url: string,
-    number: number,
-    state: string,
-    title: string,
-    comments: number,
-    labels: string[],
-    created_at: string,
-    updated_at: string
+    repository: string;
+    html_url: string;
+    number: number;
+    state: string;
+    title: string;
+    comments: number;
+    labels: string[];
+    created_at: string;
+    updated_at: string;
 }
 
 const fetchIssues = async (): Promise<void> => {
     const githubToken = process.env.GITHUB_TOKEN;
 
     if (!githubToken) {
-        throw new Error('Github token is missing.')
+        throw new Error('Github token is missing.');
     }
 
     for (const repo of repoList) {
@@ -30,7 +30,7 @@ const fetchIssues = async (): Promise<void> => {
                     Authorization: `token ${githubToken}`,
                     'User-Agent': 'GSoC-Issue-Tracker',
                 },
-            })
+            });
 
             const issues = response.data.map((issue: IssueProps) => ({
                 repository: repo,
@@ -41,8 +41,8 @@ const fetchIssues = async (): Promise<void> => {
                 comments: issue.comments,
                 labels: issue.labels.map((label: any) => label.name),
                 createdAt: issue.created_at,
-                updatedAt: issue.updated_at
-            }))
+                updatedAt: issue.updated_at,
+            }));
 
             await prisma.issue.deleteMany({
                 where: {
@@ -55,11 +55,10 @@ const fetchIssues = async (): Promise<void> => {
                     data: issues,
                 });
             }
-
         } catch (error: any) {
-            console.log(`Error fetch issue for ${repo}`)
+            console.log(`Error fetch issue for ${repo}`);
         }
     }
-}
+};
 
 export default fetchIssues;

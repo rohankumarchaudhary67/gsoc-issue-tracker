@@ -1,7 +1,7 @@
-import IssueType from "./issue-type";
+import IssueType from './issue-type';
 
 interface IssueArrayType {
-    issue: IssueType
+    issue: IssueType;
 }
 
-export default IssueArrayType ;
+export default IssueArrayType;

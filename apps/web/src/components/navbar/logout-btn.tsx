@@ -9,21 +9,20 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { signOut } from "next-auth/react";
-import { MdLogout } from "react-icons/md";
-import { toast } from "sonner";
+} from '@/components/ui/alert-dialog';
+import { signOut } from 'next-auth/react';
+import { MdLogout } from 'react-icons/md';
+import { toast } from 'sonner';
 
 export default function LogoutBtn() {
-
     const handleLogout = async () => {
-        const loadId = toast.loading("Logging out...");
+        const loadId = toast.loading('Logging out...');
         try {
             await signOut();
             toast.dismiss(loadId);
         } catch (error: any) {
             toast.dismiss(loadId);
-            toast.error("Oops, something went wrong while logging out.");
+            toast.error('Oops, something went wrong while logging out.');
         }
     };
 
@@ -37,9 +36,12 @@ export default function LogoutBtn() {
             </AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
-                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                    <AlertDialogTitle>
+                        Are you absolutely sure?
+                    </AlertDialogTitle>
                     <AlertDialogDescription>
-                        This action cannot be undone. You will need to log in again to access your account.
+                        This action cannot be undone. You will need to log in
+                        again to access your account.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>

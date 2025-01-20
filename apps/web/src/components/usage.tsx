@@ -1,32 +1,34 @@
-'use client'
-import { Progress } from "@/components/ui/progress"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import { useEffect, useState } from "react"
-import axios from "axios"
+'use client';
+import { Progress } from '@/components/ui/progress';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 export default function UsageComp({ session }: { session: any }) {
-
     const [usage, setUsage] = useState<any>();
     const [plan, setPlan] = useState<any>();
 
     const fetchUsage = async () => {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/usage/fetch`, {
-            withCredentials: true,
-            headers: {
-                Authorization: `Bearer ${session.accessToken}`,
-            },
-        });
+        const res = await axios.get(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/usage/fetch`,
+            {
+                withCredentials: true,
+                headers: {
+                    Authorization: `Bearer ${session.accessToken}`,
+                },
+            }
+        );
         setUsage(res.data.data);
         console.log(res.data.data);
-        if(res.data.data.currentPlan === "freeTrial") {
-            setPlan("Free Trial (Basic Features)");
-        } else if(res.data.data.currentPlan === "premiumPlan") {
-            setPlan("Premium Plan (Enhanced AI Assistant)");
-        } else if(res.data.data.currentPlan === "unlimitedPremium") {
-            setPlan("Unlimited Premium Plan (All Features)");
+        if (res.data.data.currentPlan === 'freeTrial') {
+            setPlan('Free Trial (Basic Features)');
+        } else if (res.data.data.currentPlan === 'premiumPlan') {
+            setPlan('Premium Plan (Enhanced AI Assistant)');
+        } else if (res.data.data.currentPlan === 'unlimitedPremium') {
+            setPlan('Unlimited Premium Plan (All Features)');
         }
-    }
+    };
 
     useEffect(() => {
         fetchUsage();
@@ -43,13 +45,23 @@ export default function UsageComp({ session }: { session: any }) {
                             Open/View Issues Limit
                         </span>
                         <div className="flex flex-col items-start justify-start gap-2 w-full">
-                            <span className="text-xl font-bold">{usage?.currentOpenIssue} / {usage?.openIssueLimit}</span>
+                            <span className="text-xl font-bold">
+                                {usage?.currentOpenIssue} /{' '}
+                                {usage?.openIssueLimit}
+                            </span>
                             <Progress
-                                value={(usage?.currentOpenIssue / usage?.openIssueLimit) * 100}
+                                value={
+                                    (usage?.currentOpenIssue /
+                                        usage?.openIssueLimit) *
+                                    100
+                                }
                                 className="h-2 w-full"
                             />
-                            {usage?.currentOpenIssue >= usage?.openIssueLimit && (
-                                <span className="text-red-400">Upgrade plan to increase limit.</span>
+                            {usage?.currentOpenIssue >=
+                                usage?.openIssueLimit && (
+                                <span className="text-red-400">
+                                    Upgrade plan to increase limit.
+                                </span>
                             )}
                         </div>
                     </div>
@@ -59,21 +71,33 @@ export default function UsageComp({ session }: { session: any }) {
                             AI Question Limit
                         </span>
                         <div className="flex flex-col items-start justify-start gap-2 w-full">
-                            <span className="text-xl">{usage?.currentAiQuestion}/{usage?.aiQuestionLimit}</span>
+                            <span className="text-xl">
+                                {usage?.currentAiQuestion}/
+                                {usage?.aiQuestionLimit}
+                            </span>
                             <Progress
-                                value={(usage?.currentAiQuestion / usage?.aiQuestionLimit) * 100}
+                                value={
+                                    (usage?.currentAiQuestion /
+                                        usage?.aiQuestionLimit) *
+                                    100
+                                }
                                 className="h-2 w-full"
                             />
-                            {usage?.currentAiQuestion >= usage?.aiQuestionLimit && (
-                                <span className="text-red-400">Upgrade plan to increase limit.</span>
+                            {usage?.currentAiQuestion >=
+                                usage?.aiQuestionLimit && (
+                                <span className="text-red-400">
+                                    Upgrade plan to increase limit.
+                                </span>
                             )}
                         </div>
                     </div>
                 </div>
                 <div className="w-full flex justify-end pt-12">
-                    <Link href={"/upgrade"}><Button className="font-semibold">Upgrade Plan</Button></Link>
+                    <Link href={'/upgrade'}>
+                        <Button className="font-semibold">Upgrade Plan</Button>
+                    </Link>
                 </div>
             </div>
         </>
-    )
+    );
 }

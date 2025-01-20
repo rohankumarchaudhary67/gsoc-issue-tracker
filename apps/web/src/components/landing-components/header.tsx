@@ -1,4 +1,4 @@
-import { Button } from "../ui/button";
+import { Button } from '../ui/button';
 
 export default function Header() {
     return (
@@ -9,14 +9,25 @@ export default function Header() {
                         Discover Perfect <br /> Open Source Issues
                     </p>
                     <p className="max-w-xl mx-auto text-sm md:text-lg text-gray-800 dark:text-gray-200 text-center font-light">
-                        Find beginner-friendly issues and contribute to open source with AI-powered guidance
+                        Find beginner-friendly issues and contribute to open
+                        source with AI-powered guidance
                     </p>
                     <div className="w-full flex justify-center items-center space-x-4 p-4">
-                        <Button variant={"customPrimary"} className="md:min-w-32">Login Now</Button>
-                        <Button variant={"customPrimary"} className="md:min-w-32">Explore Now</Button>
+                        <Button
+                            variant={'customPrimary'}
+                            className="md:min-w-32"
+                        >
+                            Login Now
+                        </Button>
+                        <Button
+                            variant={'customPrimary'}
+                            className="md:min-w-32"
+                        >
+                            Explore Now
+                        </Button>
                     </div>
                 </div>
             </div>
         </>
-    )
+    );
 }

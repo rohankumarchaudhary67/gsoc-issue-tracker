@@ -1,9 +1,9 @@
 export default function Statics() {
     const stats = [
-        { value: "1500+", label: "Issues" },
-        { value: "200+", label: "Repositories" },
-        { value: "120+", label: "Organizations" },
-        { value: "∞", label: "Bookmarks" },
+        { value: '1500+', label: 'Issues' },
+        { value: '200+', label: 'Repositories' },
+        { value: '120+', label: 'Organizations' },
+        { value: '∞', label: 'Bookmarks' },
     ];
 
     return (
@@ -14,7 +14,10 @@ export default function Statics() {
                         Empowering Open Source Collaboration
                     </h2>
                     <p className="mx-auto max-w-screen-md text-gray-700 dark:text-gray-400 md:text-lg">
-                        Discover and contribute to impactful open-source projects with insights into thousands of issues, repositories, and organizations. Designed to support GSOC contributors and open-source enthusiasts.
+                        Discover and contribute to impactful open-source
+                        projects with insights into thousands of issues,
+                        repositories, and organizations. Designed to support
+                        GSOC contributors and open-source enthusiasts.
                     </p>
                 </div>
 

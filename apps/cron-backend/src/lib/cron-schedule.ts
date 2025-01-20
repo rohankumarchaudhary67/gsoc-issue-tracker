@@ -7,7 +7,9 @@ const cronSchedule = {
             console.log('Fetching issues from GitHub...');
             fetchIssues()
                 .then(() => console.log('Issues fetched and stored'))
-                .catch((err: unknown) => console.error('Error fetching issues:', err));
+                .catch((err: unknown) =>
+                    console.error('Error fetching issues:', err)
+                );
         });
     },
 };

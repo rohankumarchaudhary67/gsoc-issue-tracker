@@ -11,7 +11,7 @@ class ApiResponse implements ApiResponseTypes {
     message: string;
     success: boolean;
 
-    constructor(statusCode: number, data: any, message: string = "Success") {
+    constructor(statusCode: number, data: any, message: string = 'Success') {
         this.statusCode = statusCode;
         this.data = data;
         this.message = message;
