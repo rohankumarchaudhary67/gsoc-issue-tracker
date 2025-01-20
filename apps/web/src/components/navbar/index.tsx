@@ -17,7 +17,7 @@ export default async function Navbar() {
                     <Link href={"/"}>
                         <div className="flex justify-center items-center space-x-3">
                             <img src="/logo/logo.png" className="h-10" alt="" />
-                            <span className="font-bold text-xl md:text-3xl bg-clip-text text-transparent bg-gradient-to-b from-blue-600 to-blue-800">Issue-Scout</span>
+                            <span className="font-bold text-xl md:text-3xl bg-clip-text text-transparent bg-gradient-to-t from-yellow-400 to-yellow-800">Issue-Scout</span>
                         </div>
                     </Link>
                     <div className="flex justify-center items-center space-x-4">

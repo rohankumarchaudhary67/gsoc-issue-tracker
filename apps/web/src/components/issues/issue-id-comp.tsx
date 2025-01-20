@@ -68,15 +68,15 @@ export default function IssueId({ issueId, session }: { issueId: string | string
             <div className="flex flex-col justify-center items-start">
                 <div className="pt-4 flex flex-col space-y-4 w-full">
                     <div className="flex items-center justify-between space-x-4">
-                        <span className="text-xl text-blue-300 font-bold">{issue?.repository}</span>
+                        <span className="text-xl text-secondary font-bold">{issue?.repository}</span>
                         <div className="flex space-x-4 items-center">
                             <span>No Assignee</span>
-                            <span className="text-white text-sm px-4 py-1 border bg-blue-600 rounded-full">{issue?.comments} Comments</span>
+                            <span className="text-sm px-4 py-1 border font-bold rounded-full bg-slate-100 dark:bg-slate-900 ">{issue?.comments} Comments</span>
                         </div>
                     </div>
                     <div className="flex items-center justify-between md:pr-2">
                         <div>
-                            <h1 className="text-xl md:text-2xl font-semibold">{issue?.title}</h1>
+                            <h1 className="text-2xl md:text-3xl font-semibold">{issue?.title}</h1>
                             <p className="text-gray-500">Open #{issue?.number}</p>
                         </div>
                         <div onClick={toggleBookmark} className="cursor-pointer">
@@ -85,14 +85,14 @@ export default function IssueId({ issueId, session }: { issueId: string | string
                     </div>
                     <div className="flex flex-wrap items-start justify-start">
                         {issue?.labels.length != 0 ? (issue?.labels.map((label: string, index: number) => (
-                            <Badge key={index} variant={"outline"} className="rounded-full mx-1 my-1">{label}</Badge>
+                            <Badge key={index} variant={"default"} className="rounded-full mx-1 my-1">{label}</Badge>
                         ))) : (
                             <div>
                                 <p>No label found</p>
                             </div>
                         )}
                     </div>
-                    <Link href={issue?.url || ""} target={"_blank"} className="flex items-center justify-start space-x-1 text-blue-400">
+                    <Link href={issue?.url || ""} target={"_blank"} className="flex items-center w-fit justify-start space-x-1 hover:text-secondary">
                         <span className="font-semibold">View on GitHub</span>
                         <FaArrowRight />
                     </Link>
@@ -114,7 +114,7 @@ export default function IssueId({ issueId, session }: { issueId: string | string
                         <CardFooter className="flex flex-wrap items-start justify-start space-y-6">
                             <div className="flex items-start justify-start w-full space-x-4">
                                 <Input onChange={(e)=>{setQuestion(e.target.value)}} placeholder="Ask AI Assistant" className="w-full" />
-                                <Button onClick={()=>{askAiQuestion()}} className="font-bold">Ask to AI Assistant</Button>
+                                <Button onClick={()=>{askAiQuestion()}} className="font-bold bg-secondary text-white dark:text-black">Ask to AI Assistant</Button>
                             </div>
                             <div className="border-t pt-2 w-full ">
                                 {AiQuestionAsked != "" ? (

@@ -19,7 +19,7 @@ export default function ProfileBtn() {
                     <img src="/logo/avatar.jpeg" className="h-10 rounded-full" alt="" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="min-w-48">
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuLabel className="text-yellow-400">My Account</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <Link href={"/usage"}><DropdownMenuItem className="font-semibold cursor-pointer"><MdDataUsage />Usage</DropdownMenuItem></Link>
                     <Link href={"/bookmarks"}><DropdownMenuItem className="font-semibold cursor-pointer"><MdBookmarkAdd />Bookmarks</DropdownMenuItem></Link>

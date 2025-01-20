@@ -15,7 +15,7 @@ export default function IssueCard({ issue }: IssueArrayType) {
             <Card className="w-full">
                 <CardHeader>
                     <div className="flex justify-between items-center">
-                        <span className="font-semibold text-blue-400">{issue.repository}</span>
+                        <span className="font-semibold text-secondary">{issue.repository}</span>
                         <span>{issue.comments} comments</span>
                     </div>
                     <Link href={`/issues/${issue.id}`}>
@@ -29,7 +29,7 @@ export default function IssueCard({ issue }: IssueArrayType) {
                 </CardHeader>
                 <CardFooter className="flex flex-wrap items-start justify-start">
                     {issue.labels.length != 0 ? (issue.labels.map((label: string, index: number) => (
-                        <Badge key={index} variant={"outline"} className="rounded-full mx-1 my-1">{label}</Badge>
+                        <Badge key={index} variant={"default"} className="rounded-full mx-1 my-1">{label}</Badge>
                     ))) : (
                         <div>
                             <p>No label found</p>
