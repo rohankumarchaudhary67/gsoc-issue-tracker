@@ -9,39 +9,46 @@ import {
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 
+interface IssueCardProps {
+    issue: {
+        id: string
+        repository: string
+        url: string
+        number: number
+        title: string
+        state: string
+        comments: number
+        labels: string[]
+        createdAt: string
+    };
+}
 
-export default function IssueCard() {
+export default function IssueCard({ issue }: IssueCardProps) {
     return (
         <>
             <Card className="w-full">
                 <CardHeader>
-                    <Link href={"/issues/1"}>
-                        <CardTitle className="md:text-xl">Implement OAuth2 Authentication Flow</CardTitle>
+                    <div className="flex justify-between items-center">
+                        <span className="font-semibold text-blue-400">{issue.repository}</span>
+                        <span>{issue.comments} comments</span>
+                    </div>
+                    <Link href={`/issues/${issue.id}`}>
+                        <CardTitle className="md:text-xl">{issue.title}</CardTitle>
+                        <p className="text-muted-foreground">#{issue.number}</p>
                     </Link>
                     <div className="flex space-x-6 items-start justify-start">
-                        <CardDescription>Python</CardDescription>
-                        <CardDescription>Tensforlow</CardDescription>
-                        <CardDescription>3/10/2024</CardDescription>
+                        <CardDescription>State : {issue.state}</CardDescription>
+                        <CardDescription>Created At : {issue.createdAt}</CardDescription>
                     </div>
                 </CardHeader>
-                <CardContent>
-                    <p className="text-sm text-stone-100">We need to implement OAuth2 authentication flow for our application. This will allow users to authenticate with our application using their Google account.</p>
-                </CardContent>
                 <CardFooter className="flex flex-wrap items-start justify-start">
-                    <Badge variant={"outline"} className="rounded-full mx-1 my-1">authentication</Badge>
-                    <Badge variant={"outline"} className="rounded-full mx-1 my-1">good first issue</Badge>
-                    <Badge variant={"outline"} className="rounded-full mx-1 my-1">help wanted</Badge>
-                    <Badge variant={"outline"} className="rounded-full mx-1 my-1">help wanted</Badge>
-                    <Badge variant={"outline"} className="rounded-full mx-1 my-1">help wanted</Badge>
-                    <Badge variant={"outline"} className="rounded-full mx-1 my-1">help wanted</Badge>
-                    <Badge variant={"outline"} className="rounded-full mx-1 my-1">help wanted</Badge>
-                    <Badge variant={"outline"} className="rounded-full mx-1 my-1">help wanted</Badge>
-                    <Badge variant={"outline"} className="rounded-full mx-1 my-1">help wanted</Badge>
-                    <Badge variant={"outline"} className="rounded-full mx-1 my-1">help wanted</Badge>
-                    <Badge variant={"outline"} className="rounded-full mx-1 my-1">help wanted</Badge>
-                    <Badge variant={"outline"} className="rounded-full mx-1 my-1">help wanted</Badge>
-                    <Badge variant={"outline"} className="rounded-full mx-1 my-1">help wanted</Badge>
-                    <Badge variant={"outline"} className="rounded-full mx-1 my-1">help wanted</Badge>
+                    {issue.labels.length != 0 ? (issue.labels.map((label: string, index: number) => (
+                        <Badge key={index} variant={"outline"} className="rounded-full mx-1 my-1">{label}</Badge>
+                    ))) : (
+                        <div>
+                            <p>No label found</p>
+                        </div>
+                    )}
                 </CardFooter>
             </Card>
         </>

@@ -33,7 +33,6 @@ const askAiQuestion = asyncHandler(async (req: Request, res: Response): Promise<
     const prompt = `
     You are Issue Scout (Help to summarise and solve github issues), an expert AI assistant and exceptional senior software developer with vast knowledge and give advice on the issues and issue is :
         - Title : ${issue.title}
-        - Description : ${issue.body}
         - Labels : ${issue.labels}
         - issueURL : ${issue.url}
     Now, you need to answer the question : ${question} and give in paragraph format.

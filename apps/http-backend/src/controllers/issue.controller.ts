@@ -28,15 +28,6 @@ const fetchAll = asyncHandler(
                     comments: true,
                     labels: true,
                     createdAt: true,
-                    updatedAt: true,
-                    bookmarks: {
-                        where: {
-                            userId: user.id,
-                        },
-                        select: {
-                            id: true,
-                        },
-                    },
                 },
             });
 
@@ -46,15 +37,9 @@ const fetchAll = asyncHandler(
                 );
             }
 
-            const transformedIssues = issues.map((issue) => ({
-                ...issue,
-                isBookmarked: issue.bookmarks.length > 0,
-            }));
-
-
             return res.status(200).json(
                 new ApiResponse(200, {
-                    issues: transformedIssues,
+                    issues,
                     pagination: {
                         page,
                         limit
@@ -91,7 +76,6 @@ const fetch = asyncHandler(async (req: Request, res: Response): Promise<any> => 
                 number: true,
                 title: true,
                 state: true,
-                body: true,
                 comments: true,
                 labels: true,
                 createdAt: true,

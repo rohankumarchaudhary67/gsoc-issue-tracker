@@ -1,3 +1,4 @@
+'use client'
 import { Input } from "@/components/ui/input";
 import {
     Select,
@@ -11,8 +12,40 @@ import { Button } from "../ui/button";
 import IssueCard from "./issue-card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-export default function IssuesComp() {
+interface IssueCardProps {
+    id: string
+        repository: string
+        url: string
+        number: number
+        title: string
+        state: string
+        comments: number
+        labels: string[]
+        createdAt: string
+}
+
+export default function IssuesComp({session}: {session: any}) {
+
+    const [issues, setIssues] = useState<IssueCardProps[]>([]);
+
+    const fetchAll = async () => {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/issue/fetchAll`, {
+            withCredentials: true,
+            headers: {
+                Authorization: `Bearer ${session.accessToken}`,
+            },
+        });
+        
+        setIssues(res.data.data.issues);
+    };
+
+    useEffect(() => {
+        fetchAll();
+    }, []);
+
     return (
         <>
             <div className="pt-4">
@@ -50,25 +83,9 @@ export default function IssuesComp() {
                         <div className="w-full">
                             <ScrollArea className="w-full h-[75vh] overflow-y-auto">
                                 <div className="w-full flex flex-col items-start justify-start space-y-4">
-                                    <IssueCard />
-                                    <IssueCard />
-                                    <IssueCard />
-                                    <IssueCard />
-                                    <IssueCard />
-                                    <IssueCard />
-                                    <IssueCard />
-                                    <IssueCard />
-                                    <IssueCard />
-                                    <IssueCard />
-                                    <IssueCard />
-                                    <IssueCard />
-                                    <IssueCard />
-                                    <IssueCard />
-                                    <IssueCard />
-                                    <IssueCard />
-                                    <IssueCard />
-                                    <IssueCard />
-                                    <IssueCard />
+                                    {issues.map((issue, index)=>{
+                                        return <IssueCard key={index} issue={issue} />
+                                    })}
                                 </div>
                             </ScrollArea>
                         </div>

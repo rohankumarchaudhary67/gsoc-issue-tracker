@@ -104,7 +104,6 @@ const fetchAll = asyncHandler(async (req: Request, res: Response): Promise<any> 
                 number: true,
                 title: true,
                 state: true,
-                body: true,
                 comments: true,
                 labels: true,
                 createdAt: true,

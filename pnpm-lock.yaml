@@ -127,6 +127,9 @@ importers:
       '@repo/db':
         specifier: workspace:*
         version: link:../../packages/db
+      axios:
+        specifier: ^1.7.9
+        version: 1.7.9
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -173,6 +176,9 @@ importers:
       '@eslint/eslintrc':
         specifier: ^3
         version: 3.2.0
+      '@types/axios':
+        specifier: ^0.14.4
+        version: 0.14.4
       '@types/jsonwebtoken':
         specifier: ^9.0.7
         version: 9.0.7
