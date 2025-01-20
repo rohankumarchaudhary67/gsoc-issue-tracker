@@ -2,7 +2,7 @@
 import { useParams } from "next/navigation";
 import IssueIdComp from "@/components/issues/issue-id-comp";
 
-export default function IssueId() {
+export default function IssueIdPage() {
     const params = useParams(); 
     const { issueId } = params; 
 

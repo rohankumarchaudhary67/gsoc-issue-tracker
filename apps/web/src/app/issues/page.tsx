@@ -1,6 +1,6 @@
 import IssuesComp from "@/components/issues";
 
-export default function Issues() {
+export default function IssuesPage() {
     return (
         <>
             <div className="paddings">

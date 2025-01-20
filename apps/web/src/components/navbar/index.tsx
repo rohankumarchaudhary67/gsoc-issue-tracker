@@ -14,7 +14,7 @@ export default async function Navbar() {
         <>
             <div className="fixed h-16 border-b flex  backdrop-blur-lg justify-center items-center w-full z-50">
                 <div className="h-8 w-full paddings flex justify-between items-center">
-                    <Link href={"/issues"}>
+                    <Link href={"/"}>
                         <div className="flex justify-center items-center space-x-3">
                             <img src="/logo/logo.png" className="h-10" alt="" />
                             <span className="font-bold text-xl md:text-3xl bg-clip-text text-transparent bg-gradient-to-b from-blue-600 to-blue-800">Issue-Scout</span>

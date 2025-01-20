@@ -1,7 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import jwt from "jsonwebtoken";
-import prisma from '@repo/db/db'
+import prisma from "@repo/db/db";
 
 declare module "next-auth" {
   interface Session {
