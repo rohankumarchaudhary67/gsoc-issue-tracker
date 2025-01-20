@@ -4,7 +4,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { ApiResponse } from "../utils/api-response";
 import prisma from "@repo/db/db";
 
-const askAiQuestion = asyncHandler(async (req: Request, res: Response): Promise<any> => {
+const askAiQuestionWithIssue = asyncHandler(async (req: Request, res: Response): Promise<any> => {
     const user = req.body.user;
     const { question, issueId } = req.body;
 
@@ -55,4 +55,42 @@ const askAiQuestion = asyncHandler(async (req: Request, res: Response): Promise<
     );
 })
 
-export { askAiQuestion };
+const askAiQuestionWithoutIssue = asyncHandler(async (req: Request, res: Response): Promise<any> => {
+    const user = req.body.user;
+    const { question } = req.body;
+
+    if (!question) {
+        return res.status(400).json(
+            new ApiResponse(400, "Question is required")
+        );
+    }
+
+    if (user.aiQuestionLimit <= user.currentAiQuestion) {
+        return res.status(400).json(
+            new ApiResponse(400, "freeTrial limit reached")
+        );
+    }
+
+    const prompt = `
+    You are Issue Scout (Help to summarise and solve github issues), an expert AI assistant and exceptional senior software developer with vast knowledge and give advice on the issues and issue is :
+    Now, you need to answer the question : ${question} and give in paragraph format.
+    `;
+
+    const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_AI_API_KEY!);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+    const result = await model.generateContent(prompt);
+
+    await prisma.user.update({
+        where: { id: user.id },
+        data: {
+            currentAiQuestion: user.currentAiQuestion + 1,
+        },
+    });
+
+    return res.status(200).json(
+        new ApiResponse(200, result.response.text(), "AI question asked successfully")
+    );
+})
+
+export { askAiQuestionWithIssue, askAiQuestionWithoutIssue };
