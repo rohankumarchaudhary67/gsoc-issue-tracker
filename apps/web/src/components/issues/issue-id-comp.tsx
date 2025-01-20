@@ -15,6 +15,8 @@ export default function IssueId({ issueId, session }: { issueId: string | string
 
     const [issue, setIssue] = useState<IssueType>();
     const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
+    const [question, setQuestion] = useState<String>("");
+    const [AiQuestionAsked, setAiQuestionAsked] = useState<String>("");
 
     const fetchIssue = async () => {
 
@@ -44,13 +46,26 @@ export default function IssueId({ issueId, session }: { issueId: string | string
         setIsBookmarked(res.data.message === "Bookmark added successfully");
     };
 
+    const askAiQuestion = async () => {
+        const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/ai-question/askWithIssue`, {
+            question: question,
+            issueId: issueId,
+        }, {
+            withCredentials: true,
+            headers: {
+                Authorization: `Bearer ${session?.accessToken}`,
+            },
+        });
+        setAiQuestionAsked(res.data.data);
+    };
+
     useEffect(() => {
         fetchIssue();
     }, []);
 
     return (
         <>
-            <div className="flex justify-between items-start space-x-4">
+            <div className="flex flex-col justify-center items-start">
                 <div className="pt-4 flex flex-col space-y-4 w-full">
                     <div className="flex items-center justify-between space-x-4">
                         <span className="text-xl text-blue-300 font-bold">{issue?.repository}</span>
@@ -85,8 +100,8 @@ export default function IssueId({ issueId, session }: { issueId: string | string
                         <span className="text-gray-500">{issue?.createdAt}</span>
                     </div>
                 </div>
-                <div>
-                    <Card className="max-w-2xl mt-4">
+                <div className="w-full">
+                    <Card className="w-full mt-8">
                         <CardHeader>
                             <div className="flex items-center justify-start space-x-2 text-xl font-semibold">
                                 <IoChatboxEllipsesSharp />
@@ -97,13 +112,21 @@ export default function IssueId({ issueId, session }: { issueId: string | string
                             <p className="text-sm text-gray-400">Ask AI Assistant to help you with your issues and get AI-powered guidance</p>
                         </CardContent>
                         <CardFooter className="flex flex-wrap items-start justify-start space-y-6">
-                            <Input placeholder="Ask AI Assistant" />
-                            <Button className="w-full font-bold">Ask AI Assistant</Button>
-                            {/* <div className="border-t pt-2">
-                                <ScrollArea className="h-[40vh] overflow-y-auto">
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui quidem enim quasi, fugiat temporibus perspiciatis repellendus rem saepe facere tempore molestias asperiores eveniet, molestiae adipisci. Explicabo, ducimus nam? Quis consectetur magnam labore accusantium quos adipisci alias cumque et a eligendi voluptates, odit suscipit! Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui quidem enim quasi, fugiat temporibus perspiciatis repellendus rem saepe facere tempore molestias asperiores eveniet, molestiae adipisci. Explicabo, ducimus nam? Quis consectetur magnam labore accusantium quos adipisci alias cumque et a eligendi voluptates, odit suscipit! Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui quidem enim quasi, fugiat temporibus perspiciatis repellendus rem saepe facere tempore molestias asperiores eveniet, molestiae adipisci. Explicabo, ducimus nam? Quis consectetur magnam labore accusantium quos adipisci alias cumque et a eligendi voluptates, odit suscipit!</p>
-                                </ScrollArea>
-                            </div> */}
+                            <div className="flex items-start justify-start w-full space-x-4">
+                                <Input onChange={(e)=>{setQuestion(e.target.value)}} placeholder="Ask AI Assistant" className="w-full" />
+                                <Button onClick={()=>{askAiQuestion()}} className="font-bold">Ask to AI Assistant</Button>
+                            </div>
+                            <div className="border-t pt-2 w-full ">
+                                {AiQuestionAsked != "" ? (
+                                    <div>
+                                        <p>{AiQuestionAsked}</p>
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <p>No AI question asked yet</p>
+                                    </div>
+                                )}
+                            </div>
                         </CardFooter>
                     </Card>
                 </div>
