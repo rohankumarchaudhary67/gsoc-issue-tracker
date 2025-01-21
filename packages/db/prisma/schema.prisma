@@ -30,6 +30,7 @@ model Issue {
   number     Int
   state      String
   title      String?
+  summary    String?
   comments   Int?
   labels     String[]
   bookmarks  UserBookmark[]

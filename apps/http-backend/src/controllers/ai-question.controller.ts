@@ -36,7 +36,7 @@ const askAiQuestionWithIssue = asyncHandler(
         - Title : ${issue.title}
         - Labels : ${issue.labels}
         - issueURL : ${issue.url}
-    Now, you need to answer the question : ${question} and give in paragraph format.
+    Now, you need to answer the question : ${question} and give in paragraph format with no styling and no link and urls. Give an english para only in simple words.
     `;
 
         const genAI = new GoogleGenerativeAI(

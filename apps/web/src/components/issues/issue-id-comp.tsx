@@ -24,7 +24,7 @@ export default function IssueId({
 }) {
     const [issue, setIssue] = useState<IssueType>();
     const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
-    const [question, setQuestion] = useState<String>('');
+    const [question, setQuestion] = useState<string>('');
     const [AiQuestionAsked, setAiQuestionAsked] = useState<String>('');
 
     const fetchIssue = async () => {
@@ -161,23 +161,70 @@ export default function IssueId({
                                 and get AI-powered guidance
                             </p>
                         </CardContent>
-                        <CardFooter className="flex flex-wrap items-start justify-start space-y-6">
-                            <div className="flex items-start justify-start w-full space-x-4">
-                                <Input
-                                    onChange={(e) => {
-                                        setQuestion(e.target.value);
-                                    }}
-                                    placeholder="Ask AI Assistant"
-                                    className="w-full"
-                                />
-                                <Button
-                                    onClick={() => {
-                                        askAiQuestion();
-                                    }}
-                                    className="font-bold bg-secondary text-white dark:text-black"
-                                >
-                                    Ask to AI Assistant
-                                </Button>
+                        <CardFooter className="flex flex-wrap items-start justify-start space-y-4">
+                            <div className="w-full flex flex-col space-y-2">
+                                <div className="flex items-start justify-start w-full space-x-4">
+                                    <Input
+                                        onChange={(e) => {
+                                            setQuestion(e.target.value);
+                                        }}
+                                        value={question}
+                                        placeholder="Ask AI Assistant"
+                                        className="w-full"
+                                    />
+                                    <Button
+                                        onClick={() => {
+                                            askAiQuestion();
+                                        }}
+                                        className="font-bold bg-secondary text-white dark:text-black"
+                                    >
+                                        Ask to AI Assistant
+                                    </Button>
+                                </div>
+                                <div className="flex space-x-2">
+                                    <Badge
+                                        variant={'outline'}
+                                        onClick={() => {
+                                            setQuestion('Give the summary');
+                                        }}
+                                        className="cursor-pointer hover:bg-gray-800 rounded-md px-4 py-2"
+                                    >
+                                        Give the summary
+                                    </Badge>
+                                    <Badge
+                                        variant={'outline'}
+                                        onClick={() => {
+                                            setQuestion(
+                                                'How to solve that issue'
+                                            );
+                                        }}
+                                        className="cursor-pointer hover:bg-gray-800 rounded-md px-4 py-2"
+                                    >
+                                        How to solve that issue
+                                    </Badge>
+                                    <Badge
+                                        variant={'outline'}
+                                        onClick={() => {
+                                            setQuestion(
+                                                'Is this Good first issue'
+                                            );
+                                        }}
+                                        className="cursor-pointer hover:bg-gray-800 rounded-md px-4 py-2"
+                                    >
+                                        Is this Good first issue
+                                    </Badge>
+                                    <Badge
+                                        variant={'outline'}
+                                        onClick={() => {
+                                            setQuestion(
+                                                'Intermediate Issue v/s Advanced Issue'
+                                            );
+                                        }}
+                                        className="cursor-pointer hover:bg-gray-800 rounded-md px-4 py-2"
+                                    >
+                                        Intermediate Issue v/s Advanced Issue
+                                    </Badge>
+                                </div>
                             </div>
                             <div className="border-t pt-2 w-full ">
                                 {AiQuestionAsked != '' ? (

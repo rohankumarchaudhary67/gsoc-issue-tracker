@@ -8,15 +8,8 @@ const fetchAll = asyncHandler(
     async (req: Request, res: Response): Promise<any> => {
         const user = req.body.user;
 
-        const page = parseInt(req.query.page as string) || 1;
-        const limit = parseInt(req.query.limit as string) || 100;
-
-        const skip = (page - 1) * limit;
-
         try {
             const issues = await prisma.issue.findMany({
-                skip: skip,
-                take: limit,
                 select: {
                     id: true,
                     repository: true,
@@ -24,6 +17,7 @@ const fetchAll = asyncHandler(
                     number: true,
                     title: true,
                     state: true,
+                    summary: true,
                     comments: true,
                     labels: true,
                     createdAt: true,
@@ -41,10 +35,6 @@ const fetchAll = asyncHandler(
                     200,
                     {
                         issues,
-                        pagination: {
-                            page,
-                            limit,
-                        },
                     },
                     'Issues fetched'
                 )
@@ -78,6 +68,7 @@ const fetch = asyncHandler(
                     number: true,
                     title: true,
                     state: true,
+                    summary: true,
                     comments: true,
                     labels: true,
                     createdAt: true,
