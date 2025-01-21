@@ -4,12 +4,15 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { UsageSkeleton } from './skeleton';
 
 export default function UsageComp({ session }: { session: any }) {
     const [usage, setUsage] = useState<any>();
     const [plan, setPlan] = useState<any>();
+    const [loading, setLoading] = useState(true);
 
     const fetchUsage = async () => {
+        setLoading(true);
         const res = await axios.get(
             `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/usage/fetch`,
             {
@@ -20,7 +23,7 @@ export default function UsageComp({ session }: { session: any }) {
             }
         );
         setUsage(res.data.data);
-        console.log(res.data.data);
+        setLoading(false);
         if (res.data.data.currentPlan === 'freeTrial') {
             setPlan('Free Trial (Basic Features)');
         } else if (res.data.data.currentPlan === 'premiumPlan') {
@@ -36,7 +39,13 @@ export default function UsageComp({ session }: { session: any }) {
 
     return (
         <>
-            <div className="flex flex-col items-start justify-center gap-2 py-10">
+            {loading ? (
+                <>
+                    <div className='w-full'>
+                    <UsageSkeleton />
+                    </div>
+                </>
+            ) : (<div className="flex flex-col items-start justify-center gap-2 py-10">
                 <h1 className="text-xl md:text-2xl font-semibold">{plan}</h1>
                 <p>Your usage details and limits are displayed here.</p>
                 <div className="flex flex-col gap-12 pt-12 w-full md:pl-4">
@@ -59,10 +68,10 @@ export default function UsageComp({ session }: { session: any }) {
                             />
                             {usage?.currentOpenIssue >=
                                 usage?.openIssueLimit && (
-                                <span className="text-red-400">
-                                    Upgrade plan to increase limit.
-                                </span>
-                            )}
+                                    <span className="text-red-400">
+                                        Upgrade plan to increase limit.
+                                    </span>
+                                )}
                         </div>
                     </div>
 
@@ -85,10 +94,10 @@ export default function UsageComp({ session }: { session: any }) {
                             />
                             {usage?.currentAiQuestion >=
                                 usage?.aiQuestionLimit && (
-                                <span className="text-red-400">
-                                    Upgrade plan to increase limit.
-                                </span>
-                            )}
+                                    <span className="text-red-400">
+                                        Upgrade plan to increase limit.
+                                    </span>
+                                )}
                         </div>
                     </div>
                 </div>
@@ -97,7 +106,7 @@ export default function UsageComp({ session }: { session: any }) {
                         <Button className="font-semibold">Upgrade Plan</Button>
                     </Link>
                 </div>
-            </div>
+            </div>)}
         </>
     );
 }

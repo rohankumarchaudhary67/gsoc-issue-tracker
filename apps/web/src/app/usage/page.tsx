@@ -6,7 +6,7 @@ import { getServerSession } from 'next-auth';
 export default async function UsagePage() {
     const session = await getServerSession(authOptions);
 
-    if (session?.user) {
+    if (!session) {
         redirect('/issues');
     }
 

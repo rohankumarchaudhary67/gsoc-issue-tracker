@@ -8,11 +8,9 @@ import {
 import { Badge } from '@/components/ui/badge';
 import IssueArrayType from '@/types';
 import { redirect } from 'next/navigation';
+import Link from 'next/link';
 
 export default function IssueCard({ issue }: IssueArrayType) {
-    const redirectToIssue = async () => {
-        redirect(`/issues/${issue.id}`);
-    };
 
     return (
         <>
@@ -24,12 +22,12 @@ export default function IssueCard({ issue }: IssueArrayType) {
                         </span>
                         <span>{issue.comments} comments</span>
                     </div>
-                    <div onClick={redirectToIssue} className="cursor-pointer">
+                    <Link href={`/issues/${issue.id}`} className="cursor-pointer">
                         <CardTitle className="md:text-xl">
                             {issue.title}
                         </CardTitle>
                         <p className="text-muted-foreground">#{issue.number}</p>
-                    </div>
+                    </Link>
                     <div className="flex space-x-6 items-start justify-start">
                         <CardDescription>State : {issue.state}</CardDescription>
                         <CardDescription>

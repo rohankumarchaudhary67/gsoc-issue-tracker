@@ -3,11 +3,14 @@ import IssueCard from './issues/issue-card';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import IssueType from '@/types/issue-type';
+import { CardSkeleton, IssueSkeleton } from './skeleton';
 
 export default function BookmarkComp({ session }: { session: any }) {
     const [issues, setIssues] = useState<IssueType[]>([]);
+    const [loading, setLoading] = useState(true);
 
     const fetchBookmarks = async () => {
+        setLoading(true);
         const res = await axios.get(
             `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/bookmark/fetchAll`,
             {
@@ -18,6 +21,7 @@ export default function BookmarkComp({ session }: { session: any }) {
             }
         );
         setIssues(res.data.data.issues);
+        setLoading(false);
     };
 
     useEffect(() => {
@@ -30,11 +34,18 @@ export default function BookmarkComp({ session }: { session: any }) {
                 <h1 className="text-xl md:text-2xl font-semibold">
                     Bookmarked Issues
                 </h1>
-                <div className="w-full grid md:grid-cols-2 gap-4 md:grid pt-2">
+                {loading ? (<div className="w-full grid md:grid-cols-2 gap-4">
+                    <CardSkeleton />
+                    <CardSkeleton />
+                    <CardSkeleton />
+                    <CardSkeleton />
+                    <CardSkeleton />
+                    <CardSkeleton />
+                </div>) : (<div className="w-full grid md:grid-cols-2 gap-4 md:grid pt-2">
                     {issues.map((issue, index) => {
                         return <IssueCard key={index} issue={issue} />;
                     })}
-                </div>
+                </div>)}
             </div>
         </>
     );

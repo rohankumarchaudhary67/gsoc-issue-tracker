@@ -2,6 +2,7 @@
 import { useParams } from 'next/navigation';
 import IssueIdComp from '@/components/issues/issue-id-comp';
 import { useSession } from 'next-auth/react';
+import { IssueSkeleton } from '@/components/skeleton';
 
 export default function IssueIdPage() {
     const params = useParams();
@@ -11,8 +12,8 @@ export default function IssueIdPage() {
 
     if (status === 'loading') {
         return (
-            <div className="flex justify-center items-center h-[95vh]">
-                Loading
+            <div className="paddings">
+                <IssueSkeleton />
             </div>
         );
     }

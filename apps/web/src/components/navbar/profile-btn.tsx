@@ -10,20 +10,9 @@ import {
 import { MdDataUsage, MdBookmarkAdd } from 'react-icons/md';
 import { TbPremiumRights } from 'react-icons/tb';
 import LogoutBtn from './logout-btn';
-import { redirect } from 'next/navigation';
+import Link from 'next/link';
 
 export default function ProfileBtn() {
-    const redirectUsage = async () => {
-        redirect('/usage');
-    };
-
-    const redirectBookmarks = async () => {
-        redirect('/bookmarks');
-    };
-
-    const redirectUpgrade = async () => {
-        redirect('/upgrade');
-    };
 
     return (
         <>
@@ -40,24 +29,24 @@ export default function ProfileBtn() {
                         My Account
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <div onClick={redirectUsage}>
+                    <Link href="/usage">
                         <DropdownMenuItem className="font-semibold cursor-pointer">
                             <MdDataUsage />
                             Usage
                         </DropdownMenuItem>
-                    </div>
-                    <div onClick={redirectBookmarks}>
+                    </Link>
+                    <Link href="/bookmarks">
                         <DropdownMenuItem className="font-semibold cursor-pointer">
                             <MdBookmarkAdd />
                             Bookmarks
                         </DropdownMenuItem>
-                    </div>
-                    <div onClick={redirectUpgrade}>
+                    </Link>
+                    <Link href="/upgrade">
                         <DropdownMenuItem className="font-semibold cursor-pointer">
                             <TbPremiumRights />
                             Upgrade Plan
                         </DropdownMenuItem>
-                    </div>
+                    </Link>
                     <DropdownMenuSeparator />
                     <LogoutBtn />
                 </DropdownMenuContent>
