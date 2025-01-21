@@ -15,6 +15,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import IssueType from '@/types/issue-type';
 import { IssueSkeleton } from '../skeleton';
+import { toast } from 'sonner';
 
 export default function IssueId({
     issueId,
@@ -50,6 +51,11 @@ export default function IssueId({
     };
 
     const toggleBookmark = async () => {
+        if(!isBookmarked){
+            toast.success('Bookmark added');
+        } else{
+            toast.error('Bookmark removed');
+        }
         setIsBookmarked(!isBookmarked);
         const res = await axios.post(
             `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/bookmark/toggleBookmark`,
