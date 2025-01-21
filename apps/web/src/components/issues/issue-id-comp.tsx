@@ -14,8 +14,9 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import IssueType from '@/types/issue-type';
-import { IssueSkeleton } from '../skeleton';
+import { AiSkeleton, IssueSkeleton } from '../skeleton';
 import { toast } from 'sonner';
+import { redirect } from 'next/navigation';
 
 export default function IssueId({
     issueId,
@@ -28,6 +29,7 @@ export default function IssueId({
     const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
     const [question, setQuestion] = useState<string>('');
     const [AiQuestionAsked, setAiQuestionAsked] = useState<String>('');
+    const [aiLoading, setAiLoading] = useState(false);
     const [loading, setLoading] = useState(true);
 
     const fetchIssue = async () => {
@@ -50,6 +52,11 @@ export default function IssueId({
             setIsBookmarked(res.data.data.isBookmarked);
             setLoading(false);
         } catch (error: any) {
+            console.log(error);
+            if(error.response.data.message === 'free trial limit reached'){
+                toast.error('Oops, you have reached the free trial limit');
+                redirect('/upgrade');
+            }
             setLoading(false);
             toast.error('Oops, something went wrong while fetching issue');
         }
@@ -62,36 +69,53 @@ export default function IssueId({
             toast.error('Bookmark removed');
         }
         setIsBookmarked(!isBookmarked);
-        const res = await axios.post(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/bookmark/toggleBookmark`,
-            {
-                id: issueId,
-            },
-            {
-                withCredentials: true,
-                headers: {
-                    Authorization: `Bearer ${session?.accessToken}`,
+        try {
+            const res = await axios.post(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/bookmark/toggleBookmark`,
+                {
+                    id: issueId,
                 },
-            }
-        );
-        setIsBookmarked(res.data.message === 'Bookmark added successfully');
+                {
+                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${session?.accessToken}`,
+                    },
+                }
+            );
+            setIsBookmarked(res.data.message === 'Bookmark added successfully');
+        } catch (error: any) {
+            toast.error('Oops, something went wrong while toggling bookmark');
+        }
     };
 
     const askAiQuestion = async () => {
-        const res = await axios.post(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/ai-question/askWithIssue`,
-            {
-                question: question,
-                issueId: issueId,
-            },
-            {
-                withCredentials: true,
-                headers: {
-                    Authorization: `Bearer ${session?.accessToken}`,
+        setQuestion("");
+        setAiQuestionAsked("");
+        setAiLoading(true);
+        try {
+            const res = await axios.post(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/ai-question/askWithIssue`,
+                {
+                    question: question,
+                    issueId: issueId,
                 },
+                {
+                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${session?.accessToken}`,
+                    },
+                }
+            );
+            setAiQuestionAsked(res.data.data);
+            setAiLoading(false);
+        } catch (error: any) {
+            if(error.response.data.data === 'freeTrial limit reached'){
+                toast.error('Oops, you have reached the free trial limit');
+                redirect('/upgrade');
             }
-        );
-        setAiQuestionAsked(res.data.data);
+            setAiLoading(false);
+            toast.error('Oops, something went wrong while asking AI Assistant');  
+        }
     };
 
     useEffect(() => {
@@ -251,7 +275,9 @@ export default function IssueId({
                                         </div>
                                     ) : (
                                         <div>
-                                            <p>No AI question asked yet</p>
+                                            {aiLoading && (
+                                                <AiSkeleton />
+                                            )}
                                         </div>
                                     )}
                                 </div>

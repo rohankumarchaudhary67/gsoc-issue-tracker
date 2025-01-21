@@ -86,4 +86,21 @@ const UsageSkeleton = () => {
     )
 }
 
-export { CardSkeleton, IssueSkeleton, UsageSkeleton };
+const AiSkeleton = () => {
+    return (
+        <>
+            <div className='flex flex-col w-full space-y-2 pt-4'>
+                <Skeleton className="w-full h-4" />
+                <Skeleton className="w-full h-4" />
+                <Skeleton className="w-full h-4" />
+                <Skeleton className="w-full h-4" />
+                <div className='flex w-full justify-between items-start'>
+                    <Skeleton className="w-full h-4" />
+                    <div className='w-full'></div>
+                </div>
+            </div>
+        </>
+    )
+}
+
+export { CardSkeleton, IssueSkeleton, UsageSkeleton, AiSkeleton };
