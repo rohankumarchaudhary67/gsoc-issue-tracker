@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { UsageSkeleton } from './skeleton';
+import { toast } from 'sonner';
 
 export default function UsageComp({ session }: { session: any }) {
     const [usage, setUsage] = useState<any>();
@@ -12,24 +13,29 @@ export default function UsageComp({ session }: { session: any }) {
     const [loading, setLoading] = useState(true);
 
     const fetchUsage = async () => {
-        setLoading(true);
-        const res = await axios.get(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/usage/fetch`,
-            {
-                withCredentials: true,
-                headers: {
-                    Authorization: `Bearer ${session.accessToken}`,
-                },
+        try {
+            setLoading(true);
+            const res = await axios.get(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/usage/fetch`,
+                {
+                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${session.accessToken}`,
+                    },
+                }
+            );
+            setUsage(res.data.data);
+            setLoading(false);
+            if (res.data.data.currentPlan === 'freeTrial') {
+                setPlan('Free Trial (Basic Features)');
+            } else if (res.data.data.currentPlan === 'premiumPlan') {
+                setPlan('Premium Plan (Enhanced AI Assistant)');
+            } else if (res.data.data.currentPlan === 'unlimitedPremium') {
+                setPlan('Unlimited Premium Plan (All Features)');
             }
-        );
-        setUsage(res.data.data);
-        setLoading(false);
-        if (res.data.data.currentPlan === 'freeTrial') {
-            setPlan('Free Trial (Basic Features)');
-        } else if (res.data.data.currentPlan === 'premiumPlan') {
-            setPlan('Premium Plan (Enhanced AI Assistant)');
-        } else if (res.data.data.currentPlan === 'unlimitedPremium') {
-            setPlan('Unlimited Premium Plan (All Features)');
+        } catch (error: any) {
+            setLoading(false);
+            toast.error('Oops, something went wrong while fetching usage.');
         }
     };
 

@@ -32,28 +32,33 @@ export default function IssueId({
 
     const fetchIssue = async () => {
         setLoading(true);
-        const accessToken = await session?.accessToken;
-        const res = await axios.post(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/issue/fetch`,
-            {
-                id: issueId,
-            },
-            {
-                withCredentials: true,
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
+        try {
+            const accessToken = await session?.accessToken;
+            const res = await axios.post(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/issue/fetch`,
+                {
+                    id: issueId,
                 },
-            }
-        );
-        setIssue(res.data.data);
-        setIsBookmarked(res.data.data.isBookmarked);
-        setLoading(false);
+                {
+                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
+            );
+            setIssue(res.data.data);
+            setIsBookmarked(res.data.data.isBookmarked);
+            setLoading(false);
+        } catch (error: any) {
+            setLoading(false);
+            toast.error('Oops, something went wrong while fetching issue');
+        }
     };
 
     const toggleBookmark = async () => {
-        if(!isBookmarked){
+        if (!isBookmarked) {
             toast.success('Bookmark added');
-        } else{
+        } else {
             toast.error('Bookmark removed');
         }
         setIsBookmarked(!isBookmarked);

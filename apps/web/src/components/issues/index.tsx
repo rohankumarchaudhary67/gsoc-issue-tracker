@@ -6,6 +6,7 @@ import IssueCard from './issue-card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { CardSkeleton } from '@/components/skeleton';
 import IssueType from '@/types/issue-type';
+import { toast } from 'sonner';
 
 export default function IssuesComp({ session }: { session: any }) {
     const [issues, setIssues] = useState<IssueType[]>([]);
@@ -24,8 +25,9 @@ export default function IssuesComp({ session }: { session: any }) {
                 }
             );
             setIssues(res.data.data.issues);
-        } catch (error) {
+        } catch (error: any) {
             console.error('Failed to fetch issues:', error);
+            toast.error('Oops, something went wrong while fetching issues.');
         } finally {
             setLoading(false);
         }
