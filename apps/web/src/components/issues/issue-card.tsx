@@ -11,7 +11,6 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 
 export default function IssueCard({ issue }: IssueArrayType) {
-
     return (
         <>
             <Card className="w-full">
@@ -22,7 +21,10 @@ export default function IssueCard({ issue }: IssueArrayType) {
                         </span>
                         <span>{issue.comments} comments</span>
                     </div>
-                    <Link href={`/issues/${issue.id}`} className="cursor-pointer">
+                    <Link
+                        href={`/issues/${issue.id}`}
+                        className="cursor-pointer"
+                    >
                         <CardTitle className="md:text-xl">
                             {issue.title}
                         </CardTitle>

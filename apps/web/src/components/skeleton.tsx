@@ -60,47 +60,47 @@ const IssueSkeleton = () => {
 const UsageSkeleton = () => {
     return (
         <>
-            <div className='flex flex-col w-full space-y-4 pt-12'>
+            <div className="flex flex-col w-full space-y-4 pt-12">
                 <Skeleton className="w-72 h-12" />
                 <Skeleton className="w-96 h-8" />
 
-                <div className='flex w-full justify-between items-start pt-8'>
+                <div className="flex w-full justify-between items-start pt-8">
                     <Skeleton className="w-72 h-8" />
-                    <div className='w-96 flex flex-col justify-start items-start space-y-2'>
+                    <div className="w-96 flex flex-col justify-start items-start space-y-2">
                         <Skeleton className="w-36 h-6" />
                         <Skeleton className="w-96 h-6" />
                     </div>
                 </div>
-                <div className='flex w-full justify-between items-start pt-8'>
+                <div className="flex w-full justify-between items-start pt-8">
                     <Skeleton className="w-72 h-8" />
-                    <div className='w-96 flex flex-col justify-start items-start space-y-2'>
+                    <div className="w-96 flex flex-col justify-start items-start space-y-2">
                         <Skeleton className="w-36 h-6" />
                         <Skeleton className="w-96 h-6" />
                     </div>
                 </div>
-                <div className='w-full pt-8 flex justify-end'>
+                <div className="w-full pt-8 flex justify-end">
                     <Skeleton className="w-48 h-12" />
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
 const AiSkeleton = () => {
     return (
         <>
-            <div className='flex flex-col w-full space-y-2 pt-4'>
+            <div className="flex flex-col w-full space-y-2 pt-4">
                 <Skeleton className="w-full h-4" />
                 <Skeleton className="w-full h-4" />
                 <Skeleton className="w-full h-4" />
                 <Skeleton className="w-full h-4" />
-                <div className='flex w-full justify-between items-start'>
+                <div className="flex w-full justify-between items-start">
                     <Skeleton className="w-full h-4" />
-                    <div className='w-full'></div>
+                    <div className="w-full"></div>
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
 export { CardSkeleton, IssueSkeleton, UsageSkeleton, AiSkeleton };

@@ -53,7 +53,7 @@ export default function IssueId({
             setLoading(false);
         } catch (error: any) {
             console.log(error);
-            if(error.response.data.message === 'free trial limit reached'){
+            if (error.response.data.message === 'free trial limit reached') {
                 toast.error('Oops, you have reached the free trial limit');
                 redirect('/upgrade');
             }
@@ -89,8 +89,8 @@ export default function IssueId({
     };
 
     const askAiQuestion = async () => {
-        setQuestion("");
-        setAiQuestionAsked("");
+        setQuestion('');
+        setAiQuestionAsked('');
         setAiLoading(true);
         try {
             const res = await axios.post(
@@ -109,12 +109,12 @@ export default function IssueId({
             setAiQuestionAsked(res.data.data);
             setAiLoading(false);
         } catch (error: any) {
-            if(error.response.data.data === 'freeTrial limit reached'){
+            if (error.response.data.data === 'freeTrial limit reached') {
                 toast.error('Oops, you have reached the free trial limit');
                 redirect('/upgrade');
             }
             setAiLoading(false);
-            toast.error('Oops, something went wrong while asking AI Assistant');  
+            toast.error('Oops, something went wrong while asking AI Assistant');
         }
     };
 
@@ -153,7 +153,11 @@ export default function IssueId({
                                 onClick={toggleBookmark}
                                 className="cursor-pointer"
                             >
-                                {isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
+                                {isBookmarked ? (
+                                    <FaBookmark />
+                                ) : (
+                                    <FaRegBookmark />
+                                )}
                             </div>
                         </div>
                         <div className="flex flex-wrap items-start justify-start">
@@ -180,7 +184,9 @@ export default function IssueId({
                             target={'_blank'}
                             className="flex items-center w-fit justify-start space-x-1 hover:text-secondary"
                         >
-                            <span className="font-semibold">View on GitHub</span>
+                            <span className="font-semibold">
+                                View on GitHub
+                            </span>
                             <FaArrowRight />
                         </Link>
                         <div className="flex items-center justify-end space-x-1">
@@ -199,8 +205,8 @@ export default function IssueId({
                             </CardHeader>
                             <CardContent>
                                 <p className="text-sm text-gray-400">
-                                    Ask AI Assistant to help you with your issues
-                                    and get AI-powered guidance
+                                    Ask AI Assistant to help you with your
+                                    issues and get AI-powered guidance
                                 </p>
                             </CardContent>
                             <CardFooter className="flex flex-wrap items-start justify-start space-y-4">
@@ -264,7 +270,8 @@ export default function IssueId({
                                             }}
                                             className="cursor-pointer hover:bg-gray-800 rounded-md px-4 py-2"
                                         >
-                                            Intermediate Issue v/s Advanced Issue
+                                            Intermediate Issue v/s Advanced
+                                            Issue
                                         </Badge>
                                     </div>
                                 </div>
@@ -274,11 +281,7 @@ export default function IssueId({
                                             <p>{AiQuestionAsked}</p>
                                         </div>
                                     ) : (
-                                        <div>
-                                            {aiLoading && (
-                                                <AiSkeleton />
-                                            )}
-                                        </div>
+                                        <div>{aiLoading && <AiSkeleton />}</div>
                                     )}
                                 </div>
                             </CardFooter>

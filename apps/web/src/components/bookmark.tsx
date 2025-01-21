@@ -5,6 +5,7 @@ import axios from 'axios';
 import IssueType from '@/types/issue-type';
 import { CardSkeleton } from './skeleton';
 
+
 export default function BookmarkComp({ session }: { session: any }) {
     const [issues, setIssues] = useState<IssueType[]>([]);
     const [loading, setLoading] = useState(true);
@@ -38,28 +39,32 @@ export default function BookmarkComp({ session }: { session: any }) {
                 <h1 className="text-xl md:text-2xl font-semibold">
                     Bookmarked Issues
                 </h1>
-                {loading ? (<div className="w-full grid md:grid-cols-2 gap-4">
-                    <CardSkeleton />
-                    <CardSkeleton />
-                    <CardSkeleton />
-                    <CardSkeleton />
-                    <CardSkeleton />
-                    <CardSkeleton />
-                </div>) : (<div className="w-full grid md:grid-cols-2 gap-4 md:grid pt-2">
-                    {issues.length === 0 ? (
-                        <>
+                {loading ? (
+                    <div className="w-full grid md:grid-cols-2 gap-4">
+                        <CardSkeleton />
+                        <CardSkeleton />
+                        <CardSkeleton />
+                        <CardSkeleton />
+                        <CardSkeleton />
+                        <CardSkeleton />
+                    </div>
+                ) : (
+                    <div className="w-full grid md:grid-cols-2 gap-4 md:grid pt-2">
+                        {issues.length === 0 ? (
+                            <>
+                                <div>No Bookmarks Found</div>
+                            </>
+                        ) : (
                             <div>
-                                No Bookmarks Found
+                                {issues.map((issue, index) => {
+                                    return (
+                                        <IssueCard key={index} issue={issue} />
+                                    );
+                                })}
                             </div>
-                        </>
-                    ) : (
-                        <div>
-                            {issues.map((issue, index) => {
-                                return <IssueCard key={index} issue={issue} />;
-                            })}
-                        </div>
-                    )}
-                </div>)}
+                        )}
+                    </div>
+                )}
             </div>
         </>
     );

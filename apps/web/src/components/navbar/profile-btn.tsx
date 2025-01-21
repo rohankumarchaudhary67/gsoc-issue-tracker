@@ -13,7 +13,6 @@ import LogoutBtn from './logout-btn';
 import Link from 'next/link';
 
 export default function ProfileBtn() {
-
     return (
         <>
             <DropdownMenu>
