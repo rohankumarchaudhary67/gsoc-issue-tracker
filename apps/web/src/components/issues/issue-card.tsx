@@ -7,7 +7,6 @@ import {
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import IssueArrayType from '@/types';
-import { redirect } from 'next/navigation';
 import Link from 'next/link';
 
 export default function IssueCard({ issue }: IssueArrayType) {

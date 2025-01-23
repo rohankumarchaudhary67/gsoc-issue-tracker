@@ -11,16 +11,19 @@ import { MdDataUsage, MdBookmarkAdd } from 'react-icons/md';
 import { TbPremiumRights } from 'react-icons/tb';
 import LogoutBtn from './logout-btn';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function ProfileBtn() {
     return (
         <>
             <DropdownMenu>
                 <DropdownMenuTrigger className="outline-none">
-                    <img
+                    <Image
                         src="/logo/avatar.jpeg"
                         className="h-10 rounded-full"
                         alt=""
+                        width={40}
+                        height={50}
                     />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="min-w-48">

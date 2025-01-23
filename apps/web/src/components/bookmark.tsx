@@ -1,16 +1,16 @@
 'use client';
 import IssueCard from './issues/issue-card';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import IssueType from '@/types/issue-type';
 import { CardSkeleton } from './skeleton';
+import { Session } from 'next-auth';
 
-
-export default function BookmarkComp({ session }: { session: any }) {
+export default function BookmarkComp({ session }: { session: Session }) {
     const [issues, setIssues] = useState<IssueType[]>([]);
     const [loading, setLoading] = useState(true);
 
-    const fetchBookmarks = async () => {
+    const fetchBookmarks = useCallback(async () => {
         setLoading(true);
         try {
             const res = await axios.get(
@@ -24,14 +24,15 @@ export default function BookmarkComp({ session }: { session: any }) {
             );
             setIssues(res.data.data.issues);
             setLoading(false);
-        } catch (error: any) {
+        } catch (error: unknown) {
+            console.error('Error fetching bookmarks:', error);
             setLoading(false);
         }
-    };
+    }, [session.accessToken]);
 
     useEffect(() => {
         fetchBookmarks();
-    }, []);
+    }, [session, fetchBookmarks]);
 
     return (
         <>

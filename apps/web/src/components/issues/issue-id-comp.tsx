@@ -11,28 +11,29 @@ import { IoChatboxEllipsesSharp } from 'react-icons/io5';
 import { Input } from '@/components/ui/input';
 import { FaArrowRight, FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState, useEffect, useCallback } from 'react';
+import axios, { AxiosError } from 'axios';
 import IssueType from '@/types/issue-type';
 import { AiSkeleton, IssueSkeleton } from '../skeleton';
 import { toast } from 'sonner';
 import { redirect } from 'next/navigation';
+import { Session } from 'next-auth';
 
 export default function IssueId({
     issueId,
     session,
 }: {
     issueId: string | string[] | undefined;
-    session: any;
+    session: Session | null;
 }) {
     const [issue, setIssue] = useState<IssueType>();
     const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
     const [question, setQuestion] = useState<string>('');
-    const [AiQuestionAsked, setAiQuestionAsked] = useState<String>('');
+    const [AiQuestionAsked, setAiQuestionAsked] = useState<string>('');
     const [aiLoading, setAiLoading] = useState(false);
     const [loading, setLoading] = useState(true);
 
-    const fetchIssue = async () => {
+    const fetchIssue = useCallback(async () => {
         setLoading(true);
         try {
             const accessToken = await session?.accessToken;
@@ -51,16 +52,18 @@ export default function IssueId({
             setIssue(res.data.data);
             setIsBookmarked(res.data.data.isBookmarked);
             setLoading(false);
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.log(error);
-            if (error.response.data.message === 'free trial limit reached') {
-                toast.error('Oops, you have reached the free trial limit');
-                redirect('/upgrade');
+            if (error instanceof AxiosError) {
+                if (error.response?.data?.data === 'freeTrial limit reached') {
+                    toast.error('Oops, you have reached the free trial limit');
+                    redirect('/upgrade');
+                }
             }
             setLoading(false);
             toast.error('Oops, something went wrong while fetching issue');
         }
-    };
+    }, [issueId, session?.accessToken]);
 
     const toggleBookmark = async () => {
         if (!isBookmarked) {
@@ -83,7 +86,8 @@ export default function IssueId({
                 }
             );
             setIsBookmarked(res.data.message === 'Bookmark added successfully');
-        } catch (error: any) {
+        } catch (error: unknown) {
+            console.error('Error toggling bookmark:', error);
             toast.error('Oops, something went wrong while toggling bookmark');
         }
     };
@@ -108,10 +112,12 @@ export default function IssueId({
             );
             setAiQuestionAsked(res.data.data);
             setAiLoading(false);
-        } catch (error: any) {
-            if (error.response.data.data === 'freeTrial limit reached') {
-                toast.error('Oops, you have reached the free trial limit');
-                redirect('/upgrade');
+        } catch (error: unknown) {
+            if (error instanceof AxiosError) {
+                if (error.response?.data?.data === 'freeTrial limit reached') {
+                    toast.error('Oops, you have reached the free trial limit');
+                    redirect('/upgrade');
+                }
             }
             setAiLoading(false);
             toast.error('Oops, something went wrong while asking AI Assistant');
@@ -120,7 +126,7 @@ export default function IssueId({
 
     useEffect(() => {
         fetchIssue();
-    }, []);
+    }, [issueId, fetchIssue]);
 
     return (
         <>

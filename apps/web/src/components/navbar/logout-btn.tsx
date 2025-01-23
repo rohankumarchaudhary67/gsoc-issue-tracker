@@ -20,7 +20,11 @@ export default function LogoutBtn() {
         try {
             await signOut();
             toast.dismiss(loadId);
-        } catch (error: any) {
+        } catch (error: unknown) {
+            if(error instanceof Error) {
+                toast.dismiss(loadId);
+                toast.error("Something went wrong while logging out.");
+            }
             toast.dismiss(loadId);
             toast.error('Oops, something went wrong while logging out.');
         }

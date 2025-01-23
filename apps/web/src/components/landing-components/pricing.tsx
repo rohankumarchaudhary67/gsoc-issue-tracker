@@ -1,6 +1,21 @@
 import React from 'react';
 
-const PriceCard = ({ plan }: any) => (
+interface Plan {
+    title: string;
+    description: string;
+    features: string[];
+    price: string;
+    featured?: boolean;
+    offset?: boolean;
+    accentColor?: string;
+    dotColor: string;
+    buttonColor: string;
+    buttonHoverColor: string;
+    buttonActiveColor: string;
+    buttonTextColor: string;
+}
+
+const PriceCard = ({ plan }: { plan: Plan }) => (
     <div
         className={`flex flex-col overflow-hidden rounded-lg ${plan.featured ? 'border-2 border-indigo-500' : 'border'} ${plan.offset ? 'sm:mt-8' : ''}`}
     >
@@ -21,7 +36,7 @@ const PriceCard = ({ plan }: any) => (
                     {plan.description}
                 </p>
                 <div className="space-y-4">
-                    {plan.features.map((feature: any, i: any) => (
+                    {plan.features.map((feature: string, i: number) => (
                         <div key={i} className="flex items-center gap-2">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -64,7 +79,7 @@ const PriceCard = ({ plan }: any) => (
 );
 
 export default function Pricing() {
-    const plans = [
+    const plans: Plan[] = [
         {
             title: 'Free Trial',
             description: 'Get started with basic features',

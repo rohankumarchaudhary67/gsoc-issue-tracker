@@ -2,17 +2,26 @@
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { UsageSkeleton } from './skeleton';
 import { toast } from 'sonner';
+import { Session } from 'next-auth';
 
-export default function UsageComp({ session }: { session: any }) {
-    const [usage, setUsage] = useState<any>();
-    const [plan, setPlan] = useState<any>();
+interface Usage {
+    currentOpenIssue: number;
+    openIssueLimit: number;
+    currentAiQuestion: number;
+    aiQuestionLimit: number;
+    currentPlan: string;
+}
+
+export default function UsageComp({ session }: { session: Session | null }) {
+    const [usage, setUsage] = useState<Usage>();
+    const [plan, setPlan] = useState<string>();
     const [loading, setLoading] = useState(true);
 
-    const fetchUsage = async () => {
+    const fetchUsage = useCallback(async () => {
         try {
             setLoading(true);
             const res = await axios.get(
@@ -20,11 +29,12 @@ export default function UsageComp({ session }: { session: any }) {
                 {
                     withCredentials: true,
                     headers: {
-                        Authorization: `Bearer ${session.accessToken}`,
+                        Authorization: `Bearer ${session?.accessToken}`,
                     },
                 }
             );
             setUsage(res.data.data);
+            console.log(res.data.data);
             setLoading(false);
             if (res.data.data.currentPlan === 'freeTrial') {
                 setPlan('Free Trial (Basic Features)');
@@ -33,15 +43,19 @@ export default function UsageComp({ session }: { session: any }) {
             } else if (res.data.data.currentPlan === 'unlimitedPremium') {
                 setPlan('Unlimited Premium Plan (All Features)');
             }
-        } catch (error: any) {
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                setLoading(false);
+                toast.error("Something went wrong while fetching usage.");
+            }
             setLoading(false);
             toast.error('Oops, something went wrong while fetching usage.');
         }
-    };
+    }, [session?.accessToken]);
 
     useEffect(() => {
         fetchUsage();
-    }, []);
+    }, [fetchUsage]);
 
     return (
         <>
@@ -69,18 +83,16 @@ export default function UsageComp({ session }: { session: any }) {
                                 </span>
                                 <Progress
                                     value={
-                                        (usage?.currentOpenIssue /
-                                            usage?.openIssueLimit) *
-                                        100
+                                        ((usage?.currentOpenIssue || 0) / (usage?.openIssueLimit || 0)) * 100
                                     }
                                     className="h-2 w-full"
                                 />
-                                {usage?.currentOpenIssue >=
-                                    usage?.openIssueLimit && (
-                                    <span className="text-red-400">
-                                        Upgrade plan to increase limit.
-                                    </span>
-                                )}
+                                {(usage?.currentOpenIssue || 0) >=
+                                    (usage?.openIssueLimit || 0) && (
+                                        <span className="text-red-400">
+                                            Upgrade plan to increase limit.
+                                        </span>
+                                    )}
                             </div>
                         </div>
 
@@ -95,18 +107,16 @@ export default function UsageComp({ session }: { session: any }) {
                                 </span>
                                 <Progress
                                     value={
-                                        (usage?.currentAiQuestion /
-                                            usage?.aiQuestionLimit) *
-                                        100
+                                        ((usage?.currentAiQuestion || 0) / (usage?.aiQuestionLimit || 0)) * 100
                                     }
                                     className="h-2 w-full"
                                 />
-                                {usage?.currentAiQuestion >=
-                                    usage?.aiQuestionLimit && (
-                                    <span className="text-red-400">
-                                        Upgrade plan to increase limit.
-                                    </span>
-                                )}
+                                {(usage?.currentAiQuestion || 0) >=
+                                    (usage?.aiQuestionLimit || 0) && (
+                                        <span className="text-red-400">
+                                            Upgrade plan to increase limit.
+                                        </span>
+                                    )}
                             </div>
                         </div>
                     </div>

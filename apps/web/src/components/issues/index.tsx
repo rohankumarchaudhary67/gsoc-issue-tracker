@@ -7,8 +7,9 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { CardSkeleton } from '@/components/skeleton';
 import IssueType from '@/types/issue-type';
 import { toast } from 'sonner';
+import { Session } from 'next-auth';
 
-export default function IssuesComp({ session }: { session: any }) {
+export default function IssuesComp({ session }: { session: Session }) {
     const [issues, setIssues] = useState<IssueType[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -25,7 +26,7 @@ export default function IssuesComp({ session }: { session: any }) {
                 }
             );
             setIssues(res.data.data.issues);
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error('Failed to fetch issues:', error);
             toast.error('Oops, something went wrong while fetching issues.');
         } finally {
