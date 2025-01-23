@@ -27,7 +27,7 @@ export default function IssuesComp({ session }: { session: Session }) {
             );
             setIssues(res.data.data.issues);
         } catch (error: unknown) {
-            console.error('Failed to fetch issues:', error);
+            console.error('Error fetching issues:', error);
             toast.error('Oops, something went wrong while fetching issues.');
         } finally {
             setLoading(false);

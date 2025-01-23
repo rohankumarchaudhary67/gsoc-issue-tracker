@@ -50,7 +50,7 @@ export default function BookmarkComp({ session }: { session: Session }) {
                         <CardSkeleton />
                     </div>
                 ) : (
-                    <div className="w-full grid md:grid-cols-2 gap-4 md:grid pt-2">
+                    <div className="w-full grid md:grid-cols-2 gap-4 pt-2">
                         {issues.length === 0 ? (
                             <>
                                 <div>No Bookmarks Found</div>

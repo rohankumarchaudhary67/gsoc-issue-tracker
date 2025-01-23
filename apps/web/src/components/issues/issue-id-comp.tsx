@@ -49,19 +49,17 @@ export default function IssueId({
                     },
                 }
             );
+            console.log(res.data.data);
             setIssue(res.data.data);
             setIsBookmarked(res.data.data.isBookmarked);
             setLoading(false);
         } catch (error: unknown) {
-            console.log(error);
             if (error instanceof AxiosError) {
-                if (error.response?.data?.data === 'freeTrial limit reached') {
+                if (error.response?.data?.message == 'free trial limit reached') {
                     toast.error('Oops, you have reached the free trial limit');
                     redirect('/upgrade');
                 }
             }
-            setLoading(false);
-            toast.error('Oops, something went wrong while fetching issue');
         }
     }, [issueId, session?.accessToken]);
 
@@ -235,7 +233,7 @@ export default function IssueId({
                                             Ask to AI Assistant
                                         </Button>
                                     </div>
-                                    <div className="flex space-x-2">
+                                    <div className="flex flex-wrap space-x-2">
                                         <Badge
                                             variant={'outline'}
                                             onClick={() => {
