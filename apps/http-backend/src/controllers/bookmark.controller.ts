@@ -59,7 +59,7 @@ const toggleBookmark = asyncHandler(
                         new ApiResponse(200, {}, 'Bookmark added successfully')
                     );
             }
-        } catch (error: any) {
+        } catch (error) {
             // Handle errors
             return res
                 .status(500)
@@ -132,7 +132,7 @@ const fetchAll = asyncHandler(
                     'Issues fetched based on bookmarks'
                 )
             );
-        } catch (error: any) {
+        } catch (error) {
             return res
                 .status(500)
                 .json(new ApiError(500, 'Internal server error'));

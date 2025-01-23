@@ -39,7 +39,7 @@ const fetchAll = asyncHandler(
                     'Issues fetched'
                 )
             );
-        } catch (error: any) {
+        } catch (error) {
             return res
                 .status(500)
                 .json(new ApiError(500, 'Internal server error'));
@@ -106,7 +106,7 @@ const fetch = asyncHandler(
                     'Issue fetched successfully'
                 )
             );
-        } catch (error: any) {
+        } catch (error) {
             return res
                 .status(500)
                 .json(new ApiError(500, 'Internal server error'));

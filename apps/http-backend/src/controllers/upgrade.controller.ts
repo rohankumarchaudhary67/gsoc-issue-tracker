@@ -31,7 +31,7 @@ const fetchUsage = asyncHandler(
                 .json(
                     new ApiResponse(200, usage, 'Usage fetched successfully')
                 );
-        } catch (error: any) {
+        } catch (error) {
             return res
                 .status(500)
                 .json(new ApiError(500, 'Internal server error'));
