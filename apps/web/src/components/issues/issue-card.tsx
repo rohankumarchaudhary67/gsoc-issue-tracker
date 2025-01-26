@@ -12,7 +12,7 @@ import Link from 'next/link';
 export default function IssueCard({ issue }: IssueArrayType) {
     return (
         <>
-            <Card className="md:w-full w-fit">
+            <Card className="w-full">
                 <CardHeader>
                     <div className="flex justify-between items-center">
                         <span className="font-semibold text-secondary">

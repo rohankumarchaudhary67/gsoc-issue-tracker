@@ -56,13 +56,15 @@ export default function BookmarkComp({ session }: { session: Session }) {
                                 <div>No Bookmarks Found</div>
                             </>
                         ) : (
-                            <div>
-                                {issues.map((issue, index) => {
-                                    return (
-                                        <IssueCard key={index} issue={issue} />
-                                    );
-                                })}
-                            </div>
+                            <>
+                                {
+                                    issues.map((issue, index) => {
+                                        return (
+                                            <IssueCard key={index} issue={issue} />
+                                        );
+                                    })
+                                }
+                            </>
                         )}
                     </div>
                 )}

@@ -11,5 +11,5 @@ const app = express();
 app.listen(process.env.PORT || 8080, () => {
     console.log('Server is running on port 8080');
     console.log('Cron schedule start');
-    cronFetchSchedule.start();
+    // cronFetchSchedule.start();
 });
