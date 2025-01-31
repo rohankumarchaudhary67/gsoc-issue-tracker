@@ -32,7 +32,7 @@ export const authOptions: NextAuthOptions = {
     callbacks: {
         async signIn({ user }) {
             const { email, name } = user;
-            const image = (user).image || null;
+            const image = user.image || null;
 
             if (!email) {
                 console.error('Email not available from GitHub');

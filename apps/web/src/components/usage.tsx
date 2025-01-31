@@ -46,7 +46,7 @@ export default function UsageComp({ session }: { session: Session | null }) {
         } catch (error: unknown) {
             if (error instanceof Error) {
                 setLoading(false);
-                toast.error("Something went wrong while fetching usage.");
+                toast.error('Something went wrong while fetching usage.');
             }
             setLoading(false);
             toast.error('Oops, something went wrong while fetching usage.');
@@ -83,16 +83,18 @@ export default function UsageComp({ session }: { session: Session | null }) {
                                 </span>
                                 <Progress
                                     value={
-                                        ((usage?.currentOpenIssue || 0) / (usage?.openIssueLimit || 0)) * 100
+                                        ((usage?.currentOpenIssue || 0) /
+                                            (usage?.openIssueLimit || 0)) *
+                                        100
                                     }
                                     className="h-2 w-full"
                                 />
                                 {(usage?.currentOpenIssue || 0) >=
                                     (usage?.openIssueLimit || 0) && (
-                                        <span className="text-red-400">
-                                            Upgrade plan to increase limit.
-                                        </span>
-                                    )}
+                                    <span className="text-red-400">
+                                        Upgrade plan to increase limit.
+                                    </span>
+                                )}
                             </div>
                         </div>
 
@@ -107,16 +109,18 @@ export default function UsageComp({ session }: { session: Session | null }) {
                                 </span>
                                 <Progress
                                     value={
-                                        ((usage?.currentAiQuestion || 0) / (usage?.aiQuestionLimit || 0)) * 100
+                                        ((usage?.currentAiQuestion || 0) /
+                                            (usage?.aiQuestionLimit || 0)) *
+                                        100
                                     }
                                     className="h-2 w-full"
                                 />
                                 {(usage?.currentAiQuestion || 0) >=
                                     (usage?.aiQuestionLimit || 0) && (
-                                        <span className="text-red-400">
-                                            Upgrade plan to increase limit.
-                                        </span>
-                                    )}
+                                    <span className="text-red-400">
+                                        Upgrade plan to increase limit.
+                                    </span>
+                                )}
                             </div>
                         </div>
                     </div>

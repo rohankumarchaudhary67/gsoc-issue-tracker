@@ -57,13 +57,11 @@ export default function BookmarkComp({ session }: { session: Session }) {
                             </>
                         ) : (
                             <>
-                                {
-                                    issues.map((issue, index) => {
-                                        return (
-                                            <IssueCard key={index} issue={issue} />
-                                        );
-                                    })
-                                }
+                                {issues.map((issue, index) => {
+                                    return (
+                                        <IssueCard key={index} issue={issue} />
+                                    );
+                                })}
                             </>
                         )}
                     </div>

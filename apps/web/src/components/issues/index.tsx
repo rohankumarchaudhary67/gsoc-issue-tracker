@@ -13,6 +13,8 @@ export default function IssuesComp({ session }: { session: Session }) {
     const [issues, setIssues] = useState<IssueType[]>([]);
     const [loading, setLoading] = useState(true);
 
+    console.log(`${process.env.NEXT_PUBLIC_BACKEND_URL}`);
+
     const fetchAll = useCallback(async () => {
         setLoading(true);
         try {

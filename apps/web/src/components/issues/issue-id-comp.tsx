@@ -55,7 +55,9 @@ export default function IssueId({
             setLoading(false);
         } catch (error: unknown) {
             if (error instanceof AxiosError) {
-                if (error.response?.data?.message == 'free trial limit reached') {
+                if (
+                    error.response?.data?.message == 'free trial limit reached'
+                ) {
                     toast.error('Oops, you have reached the free trial limit');
                     redirect('/upgrade');
                 }
