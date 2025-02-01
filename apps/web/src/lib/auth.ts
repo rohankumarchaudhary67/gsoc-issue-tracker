@@ -23,6 +23,11 @@ export const authOptions: NextAuthOptions = {
         GithubProvider({
             clientId: process.env.GITHUB_CLIENT_ID as string,
             clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+            authorization: {
+                params: {
+                    redirect_uri: process.env.GITHUB_REDIRECT_URI,
+                }
+            }
         }),
     ],
     secret: process.env.AUTH_SECRET || 'secret123',
