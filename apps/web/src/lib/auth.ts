@@ -26,8 +26,8 @@ export const authOptions: NextAuthOptions = {
             authorization: {
                 params: {
                     redirect_uri: process.env.GITHUB_REDIRECT_URI,
-                }
-            }
+                },
+            },
         }),
     ],
     secret: process.env.AUTH_SECRET || 'secret123',

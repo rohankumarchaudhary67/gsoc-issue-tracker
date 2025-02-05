@@ -1,17 +1,14 @@
-
 # **Issue-Scout | GSoC Issue Tracker**
 
 ##### Discover Perfect Open Source Issues | Find beginner-friendly issues and contribute to open source with AI-powered guidance.
 
 #### Issue Scout : [https://issue-scout.rkc.digitial]
 
-
 ## 📲 Features
 
-- **AI Powered Analysis:** Create and manage teams with role assignments and tGet instant AI summaries of issues and personalized recommendations for your skill level.
-- **Smart Filtering:** Find issues matching your experience level and technology preferences easily.
-- **Notifications & Reporting:** Receive automated alerts for deadlines and generate detailed performance reports.
-
+-   **AI Powered Analysis:** Create and manage teams with role assignments and tGet instant AI summaries of issues and personalized recommendations for your skill level.
+-   **Smart Filtering:** Find issues matching your experience level and technology preferences easily.
+-   **Notifications & Reporting:** Receive automated alerts for deadlines and generate detailed performance reports.
 
 ## Tech Stack
 
@@ -20,7 +17,6 @@
 **Server:** Node, Express, Typescript, CORS, JsonWebToken
 
 **Database:** Postgres SQL, Prisma ORM
-
 
 ## Run Locally
 
@@ -48,7 +44,6 @@ Start the server
   pnpm run start
 ```
 
-
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env file
@@ -64,13 +59,10 @@ To run this project, you will need to add the following environment variables to
 `NEXT_PUBLIC_BACKEND_URL`
 `AUTH_SECRET`
 
-
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
-
 ## Support
 
-For support, email rohankumarchaudhary67@gmail.com 
-
+For support, email rohankumarchaudhary67@gmail.com
