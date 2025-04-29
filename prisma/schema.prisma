@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String         @id @default(cuid())
+  name          String
+  email         String         @unique
+  password      String
+  image         String?
+  subscriptions Subscription[] @default([FREE])
+  usageQuotas   UsageQuota?
+  preferences   Preferences?
+  history       History[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model UsageQuota {
+  id                  String   @id @default(cuid())
+  userId              String   @unique
+  user                User     @relation(fields: [userId], references: [id])
+  aiRequestsRemaining Int
+  issueViewsRemaining Int
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model Preferences {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  theme     String   @default("light")
+  language  String   @default("en")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model History {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  issueId   String
+  createdAt DateTime @default(now())
+}
+
+model Organization {
+  id               String   @id @default(cuid())
+  name             String
+  desciption       String?
+  website          String?
+  githubUrl        String?
+  primaryLanguages String[]
+  repositories     String[]
+  issues           Issues[]
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Issues {
+  id             String       @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  title          String
+  description    String
+  state          String
+  url            String
+  techStack      String[]
+  difficulty     Difficulty
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+enum Difficulty {
+  beginner
+  intermediate
+  advanced
+}
+
+enum Subscription {
+  FREE
+  PRO
+}

@@ -1,3 +1,11 @@
 node_modules/
 dist/
 build/
+.next/
+.out/
+coverage/
+*.log
+*.lock
+*.md
+*.yml
+.vscode/

@@ -1,68 +1,36 @@
-# **Issue-Scout | GSoC Issue Tracker**
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-##### Discover Perfect Open Source Issues | Find beginner-friendly issues and contribute to open source with AI-powered guidance.
+## Getting Started
 
-#### Issue Scout : [https://issue-scout.rkc.digitial]
-
-## 📲 Features
-
--   **AI Powered Analysis:** Create and manage teams with role assignments and tGet instant AI summaries of issues and personalized recommendations for your skill level.
--   **Smart Filtering:** Find issues matching your experience level and technology preferences easily.
--   **Notifications & Reporting:** Receive automated alerts for deadlines and generate detailed performance reports.
-
-## Tech Stack
-
-**Client:** Next, Tailwind, ShadCn, Typescript, NextTheme, NextAuth, Axios
-
-**Server:** Node, Express, Typescript, CORS, JsonWebToken
-
-**Database:** Postgres SQL, Prisma ORM
-
-## Run Locally
-
-Clone the project
+First, run the development server:
 
 ```bash
-  git clone https://github.com/rohankumarchaudhary67/gsoc-issue-tracker
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-Go to the project directory
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-```bash
-  cd gsoc-issue-tracker
-```
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-Install dependencies
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-```bash
-  pnpm install
-```
+## Learn More
 
-Start the server
+To learn more about Next.js, take a look at the following resources:
 
-```bash
-  pnpm run start
-```
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-## Environment Variables
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-To run this project, you will need to add the following environment variables to your .env file
+## Deploy on Vercel
 
-`GITHUB_TOKEN`
-`CORS_ORIGIN`
-`SESSION_TOKEN_SECRET`
-`GOOGLE_GENERATIVE_AI_API_KEY`
-`GITHUB_CLIENT_ID`
-`GITHUB_CLIENT_SECRET`
-`GITHUB_REDIRECT_URI`
-`NEXTAUTH_URL`
-`NEXT_PUBLIC_BACKEND_URL`
-`AUTH_SECRET`
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
-
-## Support
-
-For support, email rohankumarchaudhary67@gmail.com
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
