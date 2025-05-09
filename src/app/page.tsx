@@ -1,3 +1,9 @@
+import Test from "@/components/test";
+
 export default function Home() {
-    return <></>;
+    return (
+        <>
+            <Test />
+        </>
+    );
 }
