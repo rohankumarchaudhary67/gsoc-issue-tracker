@@ -11,20 +11,22 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Github } from "lucide-react";
+import { signIn } from "next-auth/react";
+import Image from "next/image";
 
 export default function AuthComponent() {
     const [isGithubLoading, setIsGithubLoading] = useState(false);
     const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
-    const handleGithubSignIn = () => {
+    const handleGithubSignIn = async () => {
         setIsGithubLoading(true);
-        // GitHub authentication logic would go here
+        await signIn("github");
         setTimeout(() => setIsGithubLoading(false), 1000); // Simulating API call
     };
 
-    const handleGoogleSignIn = () => {
+    const handleGoogleSignIn = async () => {
         setIsGoogleLoading(true);
-        // Google authentication logic would go here
+        await signIn("google");
         setTimeout(() => setIsGoogleLoading(false), 1000); // Simulating API call
     };
 
@@ -33,19 +35,13 @@ export default function AuthComponent() {
             <div className="w-full max-w-md">
                 <Card className="border-2 shadow-lg">
                     <CardHeader className="space-y-1 text-center">
-                        <div className="flex justify-center mb-4">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className="h-10 w-10 text-blue-600"
-                            >
-                                <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z" />
-                            </svg>
+                        <div className="flex justify-center">
+                            <Image
+                                src="/logo/logo.png"
+                                alt="Issue Hive Logo"
+                                width={50}
+                                height={50}
+                            />
                         </div>
                         <CardTitle className="text-2xl font-bold">
                             Issue Hive
