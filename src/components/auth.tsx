@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Github, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 const AuthComponent = () => {
     const [isGithubLoading, setIsGithubLoading] = useState(false);
@@ -9,13 +10,17 @@ const AuthComponent = () => {
 
     const handleGithubSignIn = async () => {
         setIsGithubLoading(true);
-        // Simulate API call
+        await signIn("github", {
+            callbackUrl: "/issues",
+        });
         setTimeout(() => setIsGithubLoading(false), 2000);
     };
 
     const handleGoogleSignIn = async () => {
         setIsGoogleLoading(true);
-        // Simulate API call
+        await signIn("google", {
+            callbackUrl: "/issues",
+        });
         setTimeout(() => setIsGoogleLoading(false), 2000);
     };
 

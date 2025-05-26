@@ -1,6 +1,7 @@
 import React from "react";
 import { Github } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 // Footer Component
 const Footer = () => {
@@ -10,12 +11,12 @@ const Footer = () => {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     <div className="col-span-1 md:col-span-2">
                         <div className="flex items-center space-x-3 mb-4">
-                            <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg flex items-center justify-center">
-                                <div className="w-6 h-6 bg-black rounded-sm relative">
-                                    <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-1 bg-black rounded-full"></div>
-                                    <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-1 h-2 bg-yellow-400"></div>
-                                </div>
-                            </div>
+                            <Image
+                                src="/logo/logo.png"
+                                alt="logo"
+                                width={40}
+                                height={40}
+                            />
                             <span className="text-2xl font-bold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
                                 IssueHive
                             </span>

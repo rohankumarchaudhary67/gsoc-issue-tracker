@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 // Header Component
 const Header = () => {
@@ -12,14 +13,12 @@ const Header = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-16">
                     <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg flex items-center justify-center">
-                            <div className="w-6 h-6 bg-black rounded-sm relative">
-                                <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-1 bg-black rounded-full"></div>
-                                <div className="absolute -top-1 left-1 w-1 h-1 bg-black rounded-full"></div>
-                                <div className="absolute -top-1 right-1 w-1 h-1 bg-black rounded-full"></div>
-                                <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-1 h-2 bg-yellow-400"></div>
-                            </div>
-                        </div>
+                        <Image
+                            src="/logo/logo.png"
+                            alt="logo"
+                            width={40}
+                            height={40}
+                        />
                         <span className="text-2xl font-bold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
                             IssueHive
                         </span>
