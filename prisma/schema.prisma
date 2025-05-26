@@ -48,31 +48,32 @@ model History {
   createdAt DateTime @default(now())
 }
 
-model Organization {
-  id               String   @id @default(cuid())
-  name             String
-  desciption       String?
-  website          String?
-  githubUrl        String?
-  primaryLanguages String[]
-  repositories     String[]
-  issues           Issues[]
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-}
-
-model Issues {
-  id             String       @id @default(cuid())
-  organizationId String
-  organization   Organization @relation(fields: [organizationId], references: [id])
-  title          String
-  description    String
-  state          String
-  url            String
-  techStack      String[]
-  difficulty     Difficulty
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
+model Issue {
+  id                    String   @id @default(cuid())
+  github_id             BigInt      @unique
+  number                Int
+  title                 String
+  body                  String?  @db.Text
+  state                 String   // "open" or "closed"
+  author                String
+  author_avatar         String?
+  repository_owner      String
+  repository_name       String
+  repository_full_name  String
+  labels                String[] // Array of label names
+  assignees             String[] // Array of assignee usernames
+  created_at            DateTime
+  updated_at            DateTime
+  closed_at             DateTime?
+  html_url              String
+  comments_count        Int      @default(0)
+  
+  // Add indexes for better query performance
+  @@index([repository_full_name])
+  @@index([state])
+  @@index([updated_at])
+  @@index([author])
+  @@map("issues")
 }
 
 enum Difficulty {
