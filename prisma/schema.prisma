@@ -8,36 +8,35 @@ datasource db {
 }
 
 model User {
-  id            String         @id @default(cuid())
-  name          String?
-  email         String         @unique
-  image         String?
-  subscriptions Subscription[] @default([FREE])
-  usageQuotas   UsageQuota?
-  preferences   Preferences?
-  history       History[]
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
+  id               String             @id @default(cuid())
+  name             String?
+  email            String             @unique
+  image            String?
+  subscription     Subscription       @default(FREE)
+  UsageQuota       UsageQuota?
+  Bookmark         Bookmark[]
+  Comment          Comment[]
+  History          History[]
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  UserOrganization UserOrganization[]
 }
 
 model UsageQuota {
-  id                  String   @id @default(cuid())
-  userId              String   @unique
-  user                User     @relation(fields: [userId], references: [id])
-  aiRequestsRemaining Int
-  issueViewsRemaining Int
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
-}
-
-model Preferences {
-  id        String   @id @default(cuid())
-  userId    String   @unique
-  user      User     @relation(fields: [userId], references: [id])
-  theme     String   @default("light")
-  language  String   @default("en")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                      String   @id @default(cuid())
+  userId                  String   @unique
+  user                    User     @relation(fields: [userId], references: [id])
+  aiQueries               Int      @default(0)
+  aiQueriesLimit          Int      @default(100)
+  openedIssues            Int      @default(0)
+  openedIssuesLimit       Int      @default(500)
+  bookmarks               Int      @default(0)
+  bookmarksLimit          Int      @default(100)
+  organizationAccess      Int      @default(0)
+  organizationAccessLimit Int      @default(50)
+  lastReset               DateTime @default(now())
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
 }
 
 model History {
@@ -45,41 +44,86 @@ model History {
   userId    String
   user      User     @relation(fields: [userId], references: [id])
   issueId   String
+  issue     Issue    @relation(fields: [issueId], references: [id])
   createdAt DateTime @default(now())
 }
 
+model Bookmark {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  issueId   String
+  issue     Issue    @relation(fields: [issueId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model UserOrganization {
+  id        String       @id @default(cuid())
+  userId    String
+  user      User         @relation(fields: [userId], references: [id])
+  orgId     String
+  org       Organization @relation(fields: [orgId], references: [id])
+  createdAt DateTime     @default(now())
+}
+
+model Organization {
+  id               String             @id @default(cuid())
+  name             String             @unique
+  image            String?
+  description      String?
+  openIssues       Int                @default(0)
+  repos            Repo[]
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  UserOrganization UserOrganization[]
+}
+
+model Repo {
+  id             String       @id @default(cuid())
+  name           String
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  language       String[]
+  difficulty     Difficulty   @default(EASY)
+  issues         Issue[]
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
 model Issue {
-  id                    String   @id @default(cuid())
-  github_id             BigInt      @unique
-  number                Int
-  title                 String
-  body                  String?  @db.Text
-  state                 String   // "open" or "closed"
-  author                String
-  author_avatar         String?
-  repository_owner      String
-  repository_name       String
-  repository_full_name  String
-  labels                String[] // Array of label names
-  assignees             String[] // Array of assignee usernames
-  created_at            DateTime
-  updated_at            DateTime
-  closed_at             DateTime?
-  html_url              String
-  comments_count        Int      @default(0)
-  
-  // Add indexes for better query performance
-  @@index([repository_full_name])
-  @@index([state])
-  @@index([updated_at])
-  @@index([author])
-  @@map("issues")
+  id             String     @id @default(cuid())
+  githubId       BigInt     @unique
+  number         Int
+  title          String
+  body           String?    @db.Text
+  state          String
+  html_url       String
+  comments_count Int        @default(0)
+  labels         String[]
+  repoId         String
+  repo           Repo       @relation(fields: [repoId], references: [id])
+  bookmarks      Bookmark[]
+  comments       Comment[]
+  history        History[]
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  issueId   String
+  issue     Issue    @relation(fields: [issueId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  comment   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum Difficulty {
-  beginner
-  intermediate
-  advanced
+  EASY
+  MEDIUM
+  HARD
 }
 
 enum Subscription {
