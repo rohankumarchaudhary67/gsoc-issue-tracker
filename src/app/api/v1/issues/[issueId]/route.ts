@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 
 export async function GET(
     req: NextRequest,
-    { params }: { params: { issueId: string } }
+    { params }: { params: Promise<{ issueId: string }> }
 ) {
     try {
         const auth = await verifyAuth(req);
@@ -29,7 +29,7 @@ export async function GET(
             );
         }
 
-        const { issueId } = params;
+        const { issueId } = await params;
 
         // Validate issueId format (assuming cuid)
         if (!issueId || typeof issueId != "string") {

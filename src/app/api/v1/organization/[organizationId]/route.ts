@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 
 export async function GET(
     req: NextRequest,
-    { params }: { params: { organizationId: string } }
+    { params }: { params: Promise<{ organizationId: string }> }
 ) {
     try {
         const auth = await verifyAuth(req);
@@ -25,7 +25,7 @@ export async function GET(
             );
         }
 
-        const { organizationId } = params;
+        const { organizationId } = await params;
 
         // Validate organizationId format
         if (!organizationId || typeof organizationId !== "string") {
