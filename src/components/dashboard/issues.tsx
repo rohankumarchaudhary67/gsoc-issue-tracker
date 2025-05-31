@@ -206,7 +206,7 @@ export default function IssuesTab() {
                             </div>
                             <div>
                                 <label className="block text-sm font-medium mb-2">
-                                    Organization
+                                    Label
                                 </label>
                                 <select
                                     value={selectedOrg}

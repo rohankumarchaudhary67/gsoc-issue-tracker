@@ -161,42 +161,70 @@ async function fetchGitHubIssues(): Promise<GitHubIssue[]> {
 }
 
 async function storeIssuesInDatabase(issues: GitHubIssue[]): Promise<number> {
-    // Import your database connection/ORM here
-    // This example assumes you're using Prisma, but adapt for your database
-
     let savedCount = 0;
 
     for (const issue of issues) {
         try {
+            const [owner, repoName] = issue.repository.full_name.split("/");
+
+            // First, ensure the organization exists
+            let organization = await prisma.organization.findUnique({
+                where: { name: owner },
+            });
+
+            if (!organization) {
+                organization = await prisma.organization.create({
+                    data: {
+                        name: owner,
+                        description: `GitHub organization: ${owner}`,
+                    },
+                });
+                console.log(`Created organization: ${owner}`);
+            }
+
+            // Then, ensure the repository exists
+            let repo = await prisma.repo.findFirst({
+                where: {
+                    name: repoName,
+                    organizationId: organization.id,
+                },
+            });
+
+            if (!repo) {
+                // You might want to fetch additional repo info from GitHub API here
+                // For now, we'll create with minimal info
+                repo = await prisma.repo.create({
+                    data: {
+                        name: repoName,
+                        organizationId: organization.id,
+                        language: [], // You could fetch this from GitHub API
+                        difficulty: "EASY", // Default difficulty
+                    },
+                });
+                console.log(`Created repo: ${owner}/${repoName}`);
+            }
+
             // Check if issue already exists
             const existingIssue = await prisma.issue.findUnique({
-                where: { github_id: BigInt(issue.id) }, // Convert to BigInt
+                where: { githubId: BigInt(issue.id) },
             });
 
             const issueData = {
-                github_id: BigInt(issue.id), // Convert to BigInt
+                githubId: BigInt(issue.id),
                 number: issue.number,
                 title: issue.title,
-                body: issue.body,
+                body: issue.body || "",
                 state: issue.state,
-                author: issue.user.login,
-                author_avatar: issue.user.avatar_url,
-                repository_owner: issue.repository.owner,
-                repository_name: issue.repository.name,
-                repository_full_name: issue.repository.full_name,
-                labels: issue.labels.map((label) => label.name),
-                assignees: issue.assignees.map((assignee) => assignee.login),
-                created_at: new Date(issue.created_at),
-                updated_at: new Date(issue.updated_at),
-                closed_at: issue.closed_at ? new Date(issue.closed_at) : null,
                 html_url: issue.html_url,
                 comments_count: issue.comments,
+                labels: issue.labels.map((label) => label.name),
+                repoId: repo.id,
             };
 
             if (existingIssue) {
                 // Update existing issue
                 await prisma.issue.update({
-                    where: { github_id: BigInt(issue.id) }, // Convert to BigInt
+                    where: { githubId: BigInt(issue.id) },
                     data: issueData,
                 });
             } else {
@@ -205,6 +233,16 @@ async function storeIssuesInDatabase(issues: GitHubIssue[]): Promise<number> {
                     data: issueData,
                 });
             }
+
+            // Update organization's open issues count
+            await prisma.organization.update({
+                where: { id: organization.id },
+                data: {
+                    openIssues: {
+                        increment: existingIssue ? 0 : 1,
+                    },
+                },
+            });
 
             savedCount++;
         } catch (error) {
