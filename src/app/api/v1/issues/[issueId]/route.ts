@@ -142,14 +142,6 @@ export async function GET(
                         updatedAt: new Date(),
                     },
                 });
-                await prisma.usageQuota.update({
-                    where: { userId: user.id },
-                    data: {
-                        openedIssues: {
-                            increment: 1,
-                        },
-                    },
-                });
             } else {
                 // Create new history entry for PRO users
                 await prisma.history.create({

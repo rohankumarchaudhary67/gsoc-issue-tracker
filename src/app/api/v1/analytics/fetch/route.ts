@@ -43,7 +43,6 @@ export async function GET(req: NextRequest) {
                         bookmarks: newUsageQuota.bookmarks,
                         aiQueries: newUsageQuota.aiQueries,
                         organizationAccess: newUsageQuota.organizationAccess,
-                        lastResetAt: newUsageQuota.lastReset,
                     },
                     status: 200,
                 },

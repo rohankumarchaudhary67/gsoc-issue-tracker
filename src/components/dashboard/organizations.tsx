@@ -331,7 +331,7 @@ export default function Organizations() {
                                                 )
                                             }
                                             disabled={isJoining}
-                                            className={`px-4 py-2 rounded-lg flex items-center space-x-2 transition-all group-hover:scale-105 ${
+                                            className={`cursor-pointer px-4 py-2 rounded-lg flex items-center space-x-2 transition-all group-hover:scale-105 ${
                                                 isJoining
                                                     ? "bg-gray-600 text-gray-400 cursor-not-allowed"
                                                     : "bg-blue-500 hover:bg-blue-600 text-white"
