@@ -91,7 +91,7 @@ const DashboardComp = () => {
             </button>
 
             {/* Quick Stats Bar */}
-            <div className="fixed bottom-0 left-0 right-0 lg:left-64 bg-gray-900/90 backdrop-blur-xl border-t border-gray-700/50 p-4 z-30">
+            {/* <div className="fixed bottom-0 left-0 right-0 lg:left-64 bg-gray-900/90 backdrop-blur-xl border-t border-gray-700/50 p-4 z-30">
                 <div className="flex items-center justify-between text-sm">
                     <div className="flex items-center space-x-6">
                         <div className="flex items-center space-x-2">
@@ -109,7 +109,7 @@ const DashboardComp = () => {
                         <span>for quick search</span>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
             {/* Keyboard Shortcuts Handler */}
             <div className="hidden">
