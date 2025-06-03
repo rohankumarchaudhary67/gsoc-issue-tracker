@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from "react";
 import { Eye, Bookmark, Users, Zap, Loader2, AlertCircle } from "lucide-react";
 

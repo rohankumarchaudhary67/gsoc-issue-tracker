@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from "react";
 import { Clock, ArrowRight, Loader2 } from "lucide-react";
 import axios from "axios";
