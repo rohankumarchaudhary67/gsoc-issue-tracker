@@ -4,7 +4,11 @@ import { getToken } from "next-auth/jwt";
 
 // Define protected routes
 const protectedRoutes = [
-    "/dashboard",
+    "/issues",
+    "/organizations",
+    "/bookmarks",
+    "/history",
+    "/analytics",
     "/profile",
     "/settings",
     "/api/protected", // Add your protected API routes here
@@ -21,7 +25,7 @@ const protectedApiRoutes = [
 ];
 
 // Define public routes that should redirect to dashboard if authenticated
-const authRoutes = ["/auth/signin", "/auth/signup", "/login", "/register"];
+const authRoutes = ["/auth"];
 
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
@@ -65,10 +69,8 @@ export async function middleware(request: NextRequest) {
     // Handle protected page routes
     if (isProtectedRoute) {
         if (!isAuthenticated) {
-            // Store the attempted URL to redirect back after login
-            const signInUrl = new URL("/auth/signin", request.url);
-            signInUrl.searchParams.set("callbackUrl", pathname);
-            return NextResponse.redirect(signInUrl);
+            // Simple redirect to auth page without callback
+            return NextResponse.redirect(new URL("/auth", request.url));
         }
         // If authenticated, continue to the protected page
         return NextResponse.next();
@@ -76,7 +78,7 @@ export async function middleware(request: NextRequest) {
 
     // Handle auth routes (redirect to dashboard if already authenticated)
     if (isAuthRoute && isAuthenticated) {
-        return NextResponse.redirect(new URL("/dashboard", request.url));
+        return NextResponse.redirect(new URL("/issues", request.url));
     }
 
     // For all other routes, continue normally

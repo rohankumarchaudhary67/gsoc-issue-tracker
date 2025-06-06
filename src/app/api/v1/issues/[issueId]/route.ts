@@ -201,6 +201,7 @@ export async function GET(
                 comment: comment.comment,
                 createdAt: comment.createdAt,
                 user: {
+                    id: comment.user.id,
                     name: comment.user.name,
                     image: comment.user.image,
                 },

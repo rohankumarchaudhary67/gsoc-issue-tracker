@@ -11,7 +11,7 @@ const AuthComponent = () => {
     const handleGithubSignIn = async () => {
         setIsGithubLoading(true);
         await signIn("github", {
-            callbackUrl: "/dashboard",
+            callbackUrl: "/issues",
         });
         setTimeout(() => setIsGithubLoading(false), 2000);
     };
@@ -19,7 +19,7 @@ const AuthComponent = () => {
     const handleGoogleSignIn = async () => {
         setIsGoogleLoading(true);
         await signIn("google", {
-            callbackUrl: "/dashboard",
+            callbackUrl: "/issues",
         });
         setTimeout(() => setIsGoogleLoading(false), 2000);
     };

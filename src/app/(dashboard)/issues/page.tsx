@@ -1,4 +1,4 @@
-import IssuesTab from "@/components/dashboard/issues";
+import IssuesTab from "@/components/dashboard/issues/issues";
 
 export default function Issues() {
     return (

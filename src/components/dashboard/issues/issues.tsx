@@ -581,6 +581,9 @@ export default function IssuesTab() {
                 {issues.map((issue) => (
                     <div
                         key={issue.id}
+                        onClick={() =>
+                            (window.location.href = `/issues/${issue.id}`)
+                        }
                         className="bg-gray-800/70 cursor-pointer backdrop-blur-sm border border-gray-700/50 rounded-2xl p-6 hover:border-yellow-500/30 transition-all group"
                     >
                         <div className="flex items-start justify-between mb-4">

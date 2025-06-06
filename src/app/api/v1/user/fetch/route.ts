@@ -25,6 +25,7 @@ export async function GET(req: NextRequest) {
 
         return NextResponse.json(
             {
+                id: user.id,
                 name: user.name,
                 email: user.email,
                 image: user.image,
