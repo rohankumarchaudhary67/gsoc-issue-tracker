@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Clock, ArrowRight, Loader2 } from "lucide-react";
 import axios from "axios";
+import Link from "next/link";
 
 interface HistoryItem {
     id: string;
@@ -135,9 +136,14 @@ export default function Historys() {
                             <div>
                                 <p className="text-white">
                                     Viewed issue:{" "}
-                                    <span className="text-yellow-400">
-                                        {item.title}
-                                    </span>
+                                    <Link
+                                        href={`/issues/${item.id}`}
+                                        className="hover:underline hover:decoration-yellow-500 cursor-pointer"
+                                    >
+                                        <span className="text-yellow-400">
+                                            {item.title}
+                                        </span>
+                                    </Link>
                                 </p>
                                 <p className="text-sm text-gray-400 mt-1">
                                     {formatTimeAgo(item.updateAt)}

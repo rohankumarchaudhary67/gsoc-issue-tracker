@@ -138,7 +138,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                             </button>
                             <h1 className="text-2xl font-bold">
                                 {activeTab === "issues" &&
-                                    "Open Source GitHub Issues"}
+                                    "Open Source & GSoC GitHub Issues"}
                                 {activeTab === "organizations" &&
                                     "Open Source & GSoC Organizations"}
                                 {activeTab === "bookmarks" &&

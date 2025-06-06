@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Bookmark, Loader2, AlertCircle } from "lucide-react";
+import Link from "next/link";
 
 interface BookmarkIssue {
     id: string;
@@ -173,7 +174,12 @@ export default function Bookmarks() {
                     >
                         <div className="flex items-center justify-between mb-4">
                             <h3 className="text-xl font-semibold text-white">
-                                {issue.title}
+                                <Link
+                                    href={`/issue/${issue.id}`}
+                                    className="hover:text-yellow-500"
+                                >
+                                    {issue.title}
+                                </Link>
                             </h3>
                             <div className="flex items-center space-x-2">
                                 <span className="text-yellow-400 bg-yellow-500/20 px-2 py-1 rounded-lg text-sm">

@@ -12,7 +12,9 @@ export default function AIChat({
                 <div className="flex items-center justify-between p-4 border-b border-gray-700/50">
                     <div className="flex items-center space-x-2">
                         <Sparkles className="w-5 h-5 text-purple-400" />
-                        <span className="font-semibold">AI Assistant</span>
+                        <span className="font-semibold">
+                            AI Assistant (Coming Soon...)
+                        </span>
                     </div>
                     <button
                         onClick={() => setAiChatOpen(false)}
@@ -23,6 +25,7 @@ export default function AIChat({
                 </div>
                 <div className="p-4 h-64 overflow-y-auto">
                     <div className="bg-purple-500/20 border border-purple-500/30 rounded-lg p-3 mb-3">
+                        <p>This feature Coming soon...</p>
                         <p className="text-sm text-purple-300">
                             Hi! I&apos;m your AI assistant. I can help you find
                             the perfect GSoC issues, explain technical concepts,
