@@ -412,10 +412,10 @@ export default function IssueIdComp({ issueId }: { issueId: string }) {
                     {/* Enhanced back button */}
                     <button
                         onClick={() => window.history.back()}
-                        className="group flex items-center space-x-2 text-slate-400 hover:text-white transition-all duration-200 hover:translate-x-1"
+                        className="group flex items-center space-x-2 text-slate-400 hover:text-white cursor-pointer"
                     >
-                        <div className="p-2 rounded-xl bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 group-hover:border-indigo-500/30 transition-all duration-200">
-                            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                        <div className="p-2 rounded-xl bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 group-hover:border-indigo-500/30">
+                            <ArrowLeft className="w-4 h-4" />
                         </div>
                         <span className="font-medium text-xl">
                             Back to Issues
@@ -603,7 +603,7 @@ export default function IssueIdComp({ issueId }: { issueId: string }) {
                                         <button
                                             onClick={toggleBookmark}
                                             disabled={bookmarkLoading}
-                                            className={`p-3 rounded-xl transition-all duration-200 hover:scale-110 ${
+                                            className={`p-3 rounded-xl transition-all duration-200 hover:scale-110 cursor-pointer ${
                                                 issue.isBookmarked
                                                     ? "text-yellow-400 bg-yellow-500/10 border border-yellow-500/20 shadow-yellow-500/20 shadow-lg"
                                                     : "text-slate-400 hover:text-yellow-400 bg-slate-800/50 hover:bg-yellow-500/10 border border-slate-700/50 hover:border-yellow-500/20"
@@ -656,7 +656,7 @@ export default function IssueIdComp({ issueId }: { issueId: string }) {
                                                     !showCommentForm
                                                 )
                                             }
-                                            className={`flex items-center space-x-2 px-4 py-2 rounded-xl font-medium transition-all duration-200 hover:scale-105 ${
+                                            className={`flex items-center space-x-2 px-4 py-2 rounded-xl font-medium transition-all duration-200 hover:scale-105 cursor-pointer ${
                                                 showCommentForm
                                                     ? "bg-red-500/10 text-red-300 border border-red-500/20 hover:bg-red-500/20"
                                                     : "bg-blue-500/10 text-blue-300 border border-blue-500/20 hover:bg-blue-500/20"
@@ -706,7 +706,7 @@ export default function IssueIdComp({ issueId }: { issueId: string }) {
                                                             !newComment.trim() ||
                                                             submittingComment
                                                         }
-                                                        className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 disabled:from-slate-600 disabled:to-slate-700 text-white font-medium rounded-xl transition-all duration-200 hover:scale-105 disabled:scale-100 disabled:cursor-not-allowed shadow-lg"
+                                                        className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 disabled:from-slate-600 disabled:to-slate-700 text-white font-medium rounded-xl transition-all duration-200 hover:scale-105 disabled:scale-100 disabled:cursor-not-allowed shadow-lg cursor-pointer"
                                                     >
                                                         {submittingComment ? (
                                                             <Loader2 className="w-4 h-4 animate-spin" />
@@ -774,7 +774,7 @@ export default function IssueIdComp({ issueId }: { issueId: string }) {
                                                                             deletingCommentId ===
                                                                             comment.id
                                                                         }
-                                                                        className="text-slate-400 hover:text-red-400 transition-colors p-1 rounded-lg hover:bg-red-500/10"
+                                                                        className="text-slate-400 hover:text-red-400 transition-colors p-1 rounded-lg hover:bg-red-500/10 cursor-pointer"
                                                                     >
                                                                         {deletingCommentId ===
                                                                         comment.id ? (

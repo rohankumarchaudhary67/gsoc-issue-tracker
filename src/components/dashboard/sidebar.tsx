@@ -137,9 +137,10 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                                 <Menu className="w-5 h-5" />
                             </button>
                             <h1 className="text-2xl font-bold">
-                                {activeTab === "issues" && "GitHub Issues"}
+                                {activeTab === "issues" &&
+                                    "Open Source GitHub Issues"}
                                 {activeTab === "organizations" &&
-                                    "GSoC Organizations"}
+                                    "Open Source & GSoC Organizations"}
                                 {activeTab === "bookmarks" &&
                                     "Bookmarked Issues"}
                                 {activeTab === "history" && "Browse History"}
