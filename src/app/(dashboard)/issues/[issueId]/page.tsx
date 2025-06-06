@@ -1,13 +1,15 @@
 import IssueIdComp from "@/components/dashboard/issues/issueId";
 
-export default function IssueIdPage({
+export default async function IssueIdPage({
     params,
 }: {
-    params: { issueId: string };
+    params: Promise<{ issueId: string }>;
 }) {
+    const { issueId } = await params;
+
     return (
         <>
-            <IssueIdComp issueId={params.issueId} />
+            <IssueIdComp issueId={issueId} />
         </>
     );
 }
