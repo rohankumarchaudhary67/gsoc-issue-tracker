@@ -9,13 +9,11 @@ import {
     Crown,
     Trophy,
     X,
-    Menu,
-    Bell,
-    User,
 } from "lucide-react";
 import { useState } from "react";
 import AIChat from "./aiChat";
 import { redirect } from "next/navigation";
+import Navbar from "./navbar";
 
 export default function Sidebar({ children }: { children: React.ReactNode }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -127,37 +125,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
 
             {/* Header */}
             <div className="lg:ml-64 min-h-screen">
-                <header className="bg-gray-900/50 backdrop-blur-xl border-b border-gray-700/50 p-4 sticky top-0 z-30">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-4">
-                            <button
-                                onClick={() => setSidebarOpen(true)}
-                                className="lg:hidden p-2 hover:bg-gray-800 rounded-lg transition-colors"
-                            >
-                                <Menu className="w-5 h-5" />
-                            </button>
-                            <h1 className="text-2xl font-bold">
-                                {activeTab === "issues" &&
-                                    "Open Source & GSoC GitHub Issues"}
-                                {activeTab === "organizations" &&
-                                    "Open Source & GSoC Organizations"}
-                                {activeTab === "bookmarks" &&
-                                    "Bookmarked Issues"}
-                                {activeTab === "history" && "Browse History"}
-                                {activeTab === "analytics" && "Usage Analytics"}
-                            </h1>
-                        </div>
-                        <div className="flex items-center space-x-4">
-                            <button className="p-2 hover:bg-gray-800 rounded-lg transition-colors relative">
-                                <Bell className="w-5 h-5" />
-                                <div className="absolute -top-1 -right-1 w-3 h-3 bg-orange-500 rounded-full"></div>
-                            </button>
-                            <div className="w-8 h-8 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full flex items-center justify-center">
-                                <User className="w-4 h-4 text-white" />
-                            </div>
-                        </div>
-                    </div>
-                </header>
+                <Navbar activeTab={activeTab} setSidebarOpen={setSidebarOpen} />
 
                 {children}
 
