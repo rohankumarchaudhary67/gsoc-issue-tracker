@@ -577,110 +577,186 @@ export default function IssuesTab() {
                 </div>
             )}
 
-            <div className="grid gap-6">
-                {issues.map((issue) => (
-                    <div
-                        key={issue.id}
-                        onClick={() =>
-                            (window.location.href = `/issues/${issue.id}`)
-                        }
-                        className="bg-gray-800/70 cursor-pointer backdrop-blur-sm border border-gray-700/50 rounded-2xl p-6 hover:border-yellow-500/30 transition-all group"
-                    >
-                        <div className="flex items-start justify-between mb-4">
-                            <div className="flex-1">
-                                <div className="flex items-center space-x-3 mb-2">
-                                    <h3 className="text-xl font-semibold text-white group-hover:text-yellow-400 transition-colors">
-                                        {issue.title}
-                                    </h3>
-                                    <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            toggleBookmark(issue.id);
-                                        }}
-                                        disabled={bookmarkLoading.has(issue.id)}
-                                        className={`p-1 rounded-lg transition-colors disabled:opacity-50 ${
-                                            issue.isBookmarked
-                                                ? "text-yellow-400 bg-yellow-500/20"
-                                                : "text-gray-400 hover:text-yellow-400 hover:bg-yellow-500/10"
-                                        }`}
-                                    >
-                                        {bookmarkLoading.has(issue.id) ? (
-                                            <Loader2 className="w-4 h-4 animate-spin" />
-                                        ) : (
-                                            <Bookmark
-                                                className="w-4 h-4"
-                                                fill={
-                                                    issue.isBookmarked
-                                                        ? "currentColor"
-                                                        : "none"
-                                                }
-                                            />
-                                        )}
-                                    </button>
-                                </div>
-                                <div className="flex items-center space-x-4 text-sm text-gray-400 mb-3">
-                                    <span className="flex items-center space-x-1">
-                                        <Github className="w-4 h-4" />
-                                        <span>
-                                            {issue.repo.organization.name}/
-                                            {issue.repo.name}
+            <div className="w-full max-w-full overflow-hidden">
+                <div className="grid gap-4 md:gap-6">
+                    {issues.map((issue) => (
+                        <div
+                            key={issue.id}
+                            onClick={() =>
+                                (window.location.href = `/issues/${issue.id}`)
+                            }
+                            className="w-full bg-gray-800/70 cursor-pointer backdrop-blur-sm border border-gray-700/50 rounded-xl md:rounded-2xl p-4 md:p-6 hover:border-yellow-500/30 transition-all group overflow-hidden"
+                        >
+                            {/* Header Section */}
+                            <div className="flex items-start justify-between mb-3 md:mb-4">
+                                <div className="flex-1 min-w-0 pr-2">
+                                    <div className="flex items-start gap-2 md:gap-3 mb-2 w-full">
+                                        <h3 className="text-base md:text-xl font-semibold text-white group-hover:text-yellow-400 transition-colors leading-tight flex-1 min-w-0 break-words">
+                                            {issue.title}
+                                        </h3>
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                toggleBookmark(issue.id);
+                                            }}
+                                            disabled={bookmarkLoading.has(
+                                                issue.id
+                                            )}
+                                            className={`p-1.5 md:p-1 rounded-lg transition-colors disabled:opacity-50 flex-shrink-0 ${
+                                                issue.isBookmarked
+                                                    ? "text-yellow-400 bg-yellow-500/20"
+                                                    : "text-gray-400 hover:text-yellow-400 hover:bg-yellow-500/10"
+                                            }`}
+                                        >
+                                            {bookmarkLoading.has(issue.id) ? (
+                                                <Loader2 className="w-4 h-4 animate-spin" />
+                                            ) : (
+                                                <Bookmark
+                                                    className="w-4 h-4"
+                                                    fill={
+                                                        issue.isBookmarked
+                                                            ? "currentColor"
+                                                            : "none"
+                                                    }
+                                                />
+                                            )}
+                                        </button>
+                                    </div>
+
+                                    {/* Meta Information - Stack on mobile, inline on desktop */}
+                                    <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2 sm:gap-4 text-xs md:text-sm text-gray-400 mb-3">
+                                        <span className="flex items-center gap-1 flex-shrink-0">
+                                            <Github className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
+                                            <span className="truncate max-w-[150px] sm:max-w-[200px] md:max-w-none">
+                                                {issue.repo.organization.name}/
+                                                {issue.repo.name}
+                                            </span>
                                         </span>
-                                    </span>
-                                    <span className="flex items-center space-x-1">
-                                        <Calendar className="w-4 h-4" />
-                                        <span>
-                                            {formatDate(issue.createdAt)}
+                                        <span className="flex items-center gap-1">
+                                            <Calendar className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
+                                            <span className="whitespace-nowrap">
+                                                {formatDate(issue.createdAt)}
+                                            </span>
                                         </span>
-                                    </span>
-                                    <span className="flex items-center space-x-1">
-                                        <MessageSquare className="w-4 h-4" />
-                                        <span>{issue.comment_count}</span>
-                                    </span>
-                                    <span className="text-gray-500">
-                                        #{issue.number}
-                                    </span>
+                                        <span className="flex items-center gap-1">
+                                            <MessageSquare className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
+                                            <span>{issue.comment_count}</span>
+                                        </span>
+                                        <span className="text-gray-500 whitespace-nowrap">
+                                            #{issue.number}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <p className="text-gray-300 mb-4 line-clamp-3">
-                            {issue.body || "No description available"}
-                        </p>
+                            {/* Description */}
+                            <p className="text-gray-300 mb-3 md:mb-4 line-clamp-2 md:line-clamp-3 text-sm md:text-base leading-relaxed">
+                                {issue.body || "No description available"}
+                            </p>
 
-                        <div className="flex items-center justify-between">
-                            <div className="flex flex-wrap gap-2">
+                            {/* Tags and Labels - Responsive layout */}
+                            <div className="flex flex-wrap gap-1.5 md:gap-2">
+                                {/* Difficulty Badge */}
                                 <span
-                                    className={`px-3 py-1 rounded-full text-xs font-medium border ${getDifficultyColor(
+                                    className={`px-2 md:px-3 py-1 rounded-full text-xs font-medium border flex-shrink-0 ${getDifficultyColor(
                                         issue.repo.difficulty
                                     )}`}
                                 >
                                     {issue.repo.difficulty}
                                 </span>
-                                {issue.repo.languages.map((language) => (
-                                    <span
-                                        key={language}
-                                        className="px-3 py-1 rounded-full text-xs font-medium bg-blue-500/20 text-blue-400 border border-blue-500/30"
-                                    >
-                                        {language}
-                                    </span>
-                                ))}
-                                {issue.labels.slice(0, 3).map((label) => (
-                                    <span
-                                        key={label}
-                                        className="px-3 py-1 rounded-full text-xs font-medium bg-gray-700/50 text-gray-300 border border-gray-600/50"
-                                    >
-                                        {label}
-                                    </span>
-                                ))}
-                                {issue.labels.length > 3 && (
-                                    <span className="px-3 py-1 rounded-full text-xs font-medium bg-gray-700/50 text-gray-300 border border-gray-600/50">
-                                        +{issue.labels.length - 3} more
-                                    </span>
+
+                                {/* Languages - Show fewer on mobile */}
+                                <div className="flex flex-wrap gap-1.5 md:gap-2">
+                                    {issue.repo.languages
+                                        .slice(0, 2)
+                                        .map((language) => (
+                                            <span
+                                                key={language}
+                                                className="px-2 md:px-3 py-1 rounded-full text-xs font-medium bg-blue-500/20 text-blue-400 border border-blue-500/30 flex-shrink-0"
+                                            >
+                                                {language}
+                                            </span>
+                                        ))}
+                                    {/* Show third language only on larger screens */}
+                                    <div className="hidden md:flex flex-wrap gap-2">
+                                        {issue.repo.languages
+                                            .slice(2, 3)
+                                            .map((language) => (
+                                                <span
+                                                    key={language}
+                                                    className="px-3 py-1 rounded-full text-xs font-medium bg-blue-500/20 text-blue-400 border border-blue-500/30 flex-shrink-0"
+                                                >
+                                                    {language}
+                                                </span>
+                                            ))}
+                                    </div>
+                                </div>
+
+                                {/* Labels - Show fewer on mobile */}
+                                <div className="flex flex-wrap gap-1.5 md:gap-2">
+                                    {issue.labels.slice(0, 1).map((label) => (
+                                        <span
+                                            key={label}
+                                            className="px-2 md:px-3 py-1 rounded-full text-xs font-medium bg-gray-700/50 text-gray-300 border border-gray-600/50 flex-shrink-0 max-w-[100px] md:max-w-[150px] truncate"
+                                        >
+                                            {label}
+                                        </span>
+                                    ))}
+                                    {/* Show additional labels only on larger screens */}
+                                    <div className="hidden md:flex flex-wrap gap-2">
+                                        {issue.labels
+                                            .slice(1, 3)
+                                            .map((label) => (
+                                                <span
+                                                    key={label}
+                                                    className="px-3 py-1 rounded-full text-xs font-medium bg-gray-700/50 text-gray-300 border border-gray-600/50 flex-shrink-0 max-w-[150px] truncate"
+                                                >
+                                                    {label}
+                                                </span>
+                                            ))}
+                                    </div>
+                                </div>
+
+                                {/* Show remaining count - responsive calculation */}
+                                {(issue.labels.length > 1 ||
+                                    issue.repo.languages.length > 2) && (
+                                    <>
+                                        {/* Mobile count */}
+                                        <span className="md:hidden px-2 py-1 rounded-full text-xs font-medium bg-gray-700/50 text-gray-300 border border-gray-600/50 flex-shrink-0">
+                                            +
+                                            {issue.labels.length -
+                                                1 +
+                                                Math.max(
+                                                    0,
+                                                    issue.repo.languages
+                                                        .length - 2
+                                                )}{" "}
+                                            more
+                                        </span>
+                                        {/* Desktop count */}
+                                        {(issue.labels.length > 3 ||
+                                            issue.repo.languages.length >
+                                                3) && (
+                                            <span className="hidden md:inline-block px-3 py-1 rounded-full text-xs font-medium bg-gray-700/50 text-gray-300 border border-gray-600/50 flex-shrink-0">
+                                                +
+                                                {Math.max(
+                                                    0,
+                                                    issue.labels.length - 3
+                                                ) +
+                                                    Math.max(
+                                                        0,
+                                                        issue.repo.languages
+                                                            .length - 3
+                                                    )}{" "}
+                                                more
+                                            </span>
+                                        )}
+                                    </>
                                 )}
                             </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
 
             {/* Pagination */}

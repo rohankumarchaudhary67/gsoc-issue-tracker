@@ -101,10 +101,8 @@ export default function Navbar({
                             <Menu className="w-5 h-5" />
                         </button>
                         <h1 className="text-2xl font-bold">
-                            {activeTab === "issues" &&
-                                "Open Source & GSoC GitHub Issues"}
-                            {activeTab === "organizations" &&
-                                "Open Source & GSoC Organizations"}
+                            {activeTab === "issues" && "GitHub Issues"}
+                            {activeTab === "organizations" && "Organizations"}
                             {activeTab === "bookmarks" && "Bookmarked Issues"}
                             {activeTab === "history" && "Browse History"}
                             {activeTab === "analytics" && "Usage Analytics"}

@@ -407,8 +407,8 @@ export default function IssueIdComp({ issueId }: { issueId: string }) {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-950 to-black text-white relative overflow-hidden">
-            <div className="relative z-10 p-4 sm:p-6">
-                <div className="mx-auto space-y-6">
+            <div className="relative z-10 p-3 sm:p-4 lg:p-6">
+                <div className="mx-auto max-w-7xl space-y-4 sm:space-y-6">
                     {/* Enhanced back button */}
                     <button
                         onClick={() => window.history.back()}
@@ -417,21 +417,20 @@ export default function IssueIdComp({ issueId }: { issueId: string }) {
                         <div className="p-2 rounded-xl bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 group-hover:border-indigo-500/30">
                             <ArrowLeft className="w-4 h-4" />
                         </div>
-                        <span className="font-medium text-xl">
+                        <span className="font-medium text-lg sm:text-xl">
                             Back to Issues
                         </span>
                     </button>
 
                     {/* Main content grid */}
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
                         {/* Enhanced left sidebar */}
-                        <div className="lg:col-span-1 space-y-6">
+                        <div className="xl:col-span-1 space-y-4 sm:space-y-6 order-2 xl:order-1">
                             {/* Repository card with glass effect */}
                             <div className="relative group">
-                                {/* <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300"></div> */}
-                                <div className="relative bg-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 hover:border-indigo-500/30 transition-all duration-300">
-                                    <div className="flex items-start space-x-4 mb-6">
-                                        <div className="relative">
+                                <div className="relative bg-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-xl sm:rounded-2xl p-4 sm:p-6 hover:border-indigo-500/30 transition-all duration-300">
+                                    <div className="flex items-start space-x-3 sm:space-x-4 mb-4 sm:mb-6">
+                                        <div className="relative flex-shrink-0">
                                             <img
                                                 src={
                                                     issue.repo.organization
@@ -440,18 +439,18 @@ export default function IssueIdComp({ issueId }: { issueId: string }) {
                                                 alt={
                                                     issue.repo.organization.name
                                                 }
-                                                className="w-12 h-12 rounded-xl border-2 border-slate-600/50"
+                                                className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl border-2 border-slate-600/50"
                                             />
-                                            <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-slate-900"></div>
+                                            <div className="absolute -bottom-1 -right-1 w-3 h-3 sm:w-4 sm:h-4 bg-emerald-500 rounded-full border-2 border-slate-900"></div>
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                            <h3 className="text-white font-semibold text-lg tracking-tight">
+                                            <h3 className="text-white font-semibold text-base sm:text-lg tracking-tight truncate">
                                                 {issue.repo.organization.name}
                                             </h3>
-                                            <p className="text-indigo-300 font-medium">
+                                            <p className="text-indigo-300 font-medium text-sm sm:text-base truncate">
                                                 {issue.repo.name}
                                             </p>
-                                            <p className="text-slate-400 text-sm line-clamp-2 mt-1">
+                                            <p className="text-slate-400 text-xs sm:text-sm line-clamp-2 mt-1">
                                                 {
                                                     issue.repo.organization
                                                         .description
@@ -461,11 +460,11 @@ export default function IssueIdComp({ issueId }: { issueId: string }) {
                                     </div>
 
                                     {/* Enhanced metadata */}
-                                    <div className="space-y-4">
-                                        <div className="flex items-center justify-between p-3 bg-slate-800/50 rounded-xl border border-slate-700/30">
+                                    <div className="space-y-3 sm:space-y-4">
+                                        <div className="flex items-center justify-between p-2 sm:p-3 bg-slate-800/50 rounded-xl border border-slate-700/30">
                                             <div className="flex items-center space-x-2 text-slate-300">
-                                                <Tag className="w-4 h-4 text-indigo-400" />
-                                                <span className="font-medium">
+                                                <Tag className="w-3 h-3 sm:w-4 sm:h-4 text-indigo-400" />
+                                                <span className="font-medium text-sm sm:text-base">
                                                     #{issue.number}
                                                 </span>
                                             </div>
@@ -474,17 +473,17 @@ export default function IssueIdComp({ issueId }: { issueId: string }) {
                                             </span>
                                         </div>
 
-                                        <div className="grid grid-cols-2 gap-3">
-                                            <div className="flex items-center space-x-2 text-slate-400 text-sm">
-                                                <Calendar className="w-4 h-4 text-blue-400" />
-                                                <span>
+                                        <div className="grid grid-cols-2 gap-2 sm:gap-3">
+                                            <div className="flex items-center space-x-2 text-slate-400 text-xs sm:text-sm">
+                                                <Calendar className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400 flex-shrink-0" />
+                                                <span className="truncate">
                                                     {formatRelativeTime(
                                                         issue.createdAt
                                                     )}
                                                 </span>
                                             </div>
-                                            <div className="flex items-center space-x-2 text-slate-400 text-sm">
-                                                <MessageSquare className="w-4 h-4 text-green-400" />
+                                            <div className="flex items-center space-x-2 text-slate-400 text-xs sm:text-sm">
+                                                <MessageSquare className="w-3 h-3 sm:w-4 sm:h-4 text-green-400 flex-shrink-0" />
                                                 <span>
                                                     {issue.comments_count}
                                                 </span>
@@ -492,9 +491,9 @@ export default function IssueIdComp({ issueId }: { issueId: string }) {
                                         </div>
 
                                         {issue.hasViewed && (
-                                            <div className="flex items-center space-x-2 text-slate-400 text-sm p-2 bg-slate-800/30 rounded-lg">
-                                                <Eye className="w-4 h-4 text-purple-400" />
-                                                <span>
+                                            <div className="flex items-center space-x-2 text-slate-400 text-xs sm:text-sm p-2 bg-slate-800/30 rounded-lg">
+                                                <Eye className="w-3 h-3 sm:w-4 sm:h-4 text-purple-400 flex-shrink-0" />
+                                                <span className="truncate">
                                                     Viewed{" "}
                                                     {formatRelativeTime(
                                                         issue.lastViewed!
@@ -509,33 +508,35 @@ export default function IssueIdComp({ issueId }: { issueId: string }) {
                                         href={issue.html_url}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="mt-6 w-full flex items-center justify-center space-x-2 px-4 py-3 bg-gradient-to-r from-slate-700/50 to-slate-800/50 hover:from-indigo-600/50 hover:to-purple-600/50 border border-slate-600/50 hover:border-indigo-500/50 rounded-xl text-slate-300 hover:text-white transition-all duration-200 group"
+                                        className="mt-4 sm:mt-6 w-full flex items-center justify-center space-x-2 px-3 sm:px-4 py-2 sm:py-3 bg-gradient-to-r from-slate-700/50 to-slate-800/50 hover:from-indigo-600/50 hover:to-purple-600/50 border border-slate-600/50 hover:border-indigo-500/50 rounded-xl text-slate-300 hover:text-white transition-all duration-200 group text-sm sm:text-base"
                                     >
-                                        <Github className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                                        <Github className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform flex-shrink-0" />
                                         <span className="font-medium">
                                             View on GitHub
                                         </span>
-                                        <ExternalLink className="w-4 h-4 opacity-60" />
+                                        <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4 opacity-60 flex-shrink-0" />
                                     </a>
                                 </div>
                             </div>
 
                             {/* Enhanced details card */}
-                            <div className="bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 hover:border-purple-500/30 transition-all duration-300">
-                                <h3 className="text-white font-semibold mb-4 flex items-center space-x-2">
-                                    <Zap className="w-5 h-5 text-yellow-400" />
-                                    <span>Details</span>
+                            <div className="bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-xl sm:rounded-2xl p-4 sm:p-6 hover:border-purple-500/30 transition-all duration-300">
+                                <h3 className="text-white font-semibold mb-3 sm:mb-4 flex items-center space-x-2">
+                                    <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400" />
+                                    <span className="text-sm sm:text-base">
+                                        Details
+                                    </span>
                                 </h3>
 
-                                <div className="space-y-4">
+                                <div className="space-y-3 sm:space-y-4">
                                     <div>
                                         <p className="text-xs text-slate-400 mb-2 uppercase tracking-wide">
                                             Difficulty
                                         </p>
                                         <span
-                                            className={`inline-flex items-center px-3 py-2 rounded-xl text-sm font-semibold border shadow-lg ${getDifficultyColor(issue.repo.difficulty)}`}
+                                            className={`inline-flex items-center px-2 sm:px-3 py-1 sm:py-2 rounded-xl text-xs sm:text-sm font-semibold border shadow-lg ${getDifficultyColor(issue.repo.difficulty)}`}
                                         >
-                                            <div className="w-2 h-2 rounded-full bg-current mr-2"></div>
+                                            <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-current mr-1 sm:mr-2"></div>
                                             {issue.repo.difficulty}
                                         </span>
                                     </div>
@@ -544,12 +545,12 @@ export default function IssueIdComp({ issueId }: { issueId: string }) {
                                         <p className="text-xs text-slate-400 mb-2 uppercase tracking-wide">
                                             Languages
                                         </p>
-                                        <div className="flex flex-wrap gap-2">
+                                        <div className="flex flex-wrap gap-1 sm:gap-2">
                                             {issue.repo.languages.map(
                                                 (language, index) => (
                                                     <span
                                                         key={language}
-                                                        className={`px-3 py-1 rounded-lg text-xs font-medium border transition-all duration-200 hover:scale-105 ${
+                                                        className={`px-2 sm:px-3 py-1 rounded-lg text-xs font-medium border transition-all duration-200 hover:scale-105 ${
                                                             index === 0
                                                                 ? "bg-blue-500/10 text-blue-300 border-blue-500/20"
                                                                 : index === 1
@@ -568,12 +569,12 @@ export default function IssueIdComp({ issueId }: { issueId: string }) {
                                         <p className="text-xs text-slate-400 mb-2 uppercase tracking-wide">
                                             Labels
                                         </p>
-                                        <div className="flex flex-wrap gap-2">
+                                        <div className="flex flex-wrap gap-1 sm:gap-2">
                                             {issue.labels.map(
                                                 (label, index) => (
                                                     <span
                                                         key={index}
-                                                        className={`px-3 py-1 rounded-lg text-xs font-medium transition-all duration-200 hover:scale-105 ${
+                                                        className={`px-2 sm:px-3 py-1 rounded-lg text-xs font-medium transition-all duration-200 hover:scale-105 ${
                                                             label ===
                                                             "good first issue"
                                                                 ? "bg-emerald-500/10 text-emerald-300 border border-emerald-500/20"
@@ -591,29 +592,28 @@ export default function IssueIdComp({ issueId }: { issueId: string }) {
                         </div>
 
                         {/* Enhanced main content */}
-                        <div className="lg:col-span-2 space-y-6">
+                        <div className="xl:col-span-2 space-y-4 sm:space-y-6 order-1 xl:order-2">
                             {/* Enhanced issue header */}
                             <div className="relative group">
-                                {/* <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300"></div> */}
-                                <div className="relative bg-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-8 hover:border-blue-500/30 transition-all duration-300">
-                                    <div className="flex justify-between items-start mb-6">
-                                        <h1 className="text-3xl font-bold text-white leading-tight pr-4 bg-gradient-to-r from-white to-slate-300 bg-clip-text">
+                                <div className="relative bg-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 hover:border-blue-500/30 transition-all duration-300">
+                                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-4 sm:mb-6">
+                                        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white leading-tight bg-gradient-to-r from-white to-slate-300 bg-clip-text">
                                             {issue.title}
                                         </h1>
                                         <button
                                             onClick={toggleBookmark}
                                             disabled={bookmarkLoading}
-                                            className={`p-3 rounded-xl transition-all duration-200 hover:scale-110 cursor-pointer ${
+                                            className={`self-start sm:self-auto p-2 sm:p-3 rounded-xl transition-all duration-200 hover:scale-110 cursor-pointer flex-shrink-0 ${
                                                 issue.isBookmarked
                                                     ? "text-yellow-400 bg-yellow-500/10 border border-yellow-500/20 shadow-yellow-500/20 shadow-lg"
                                                     : "text-slate-400 hover:text-yellow-400 bg-slate-800/50 hover:bg-yellow-500/10 border border-slate-700/50 hover:border-yellow-500/20"
                                             }`}
                                         >
                                             {bookmarkLoading ? (
-                                                <Loader2 className="w-6 h-6 animate-spin" />
+                                                <Loader2 className="w-5 h-5 sm:w-6 sm:h-6 animate-spin" />
                                             ) : (
                                                 <Bookmark
-                                                    className="w-6 h-6"
+                                                    className="w-5 h-5 sm:w-6 sm:h-6"
                                                     fill={
                                                         issue.isBookmarked
                                                             ? "currentColor"
@@ -625,13 +625,13 @@ export default function IssueIdComp({ issueId }: { issueId: string }) {
                                     </div>
 
                                     {/* Enhanced issue body */}
-                                    <div className="bg-slate-800/30 border border-slate-700/30 rounded-xl p-6">
-                                        <h2 className="text-xl font-semibold text-white mb-4 flex items-center space-x-2">
-                                            <GitBranch className="w-5 h-5 text-indigo-400" />
+                                    <div className="bg-slate-800/30 border border-slate-700/30 rounded-xl p-4 sm:p-6">
+                                        <h2 className="text-lg sm:text-xl font-semibold text-white mb-3 sm:mb-4 flex items-center space-x-2">
+                                            <GitBranch className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-400" />
                                             <span>Description</span>
                                         </h2>
                                         <div className="prose prose-invert max-w-none">
-                                            <pre className="whitespace-pre-wrap text-slate-300 leading-relaxed font-sans text-base">
+                                            <pre className="whitespace-pre-wrap text-slate-300 leading-relaxed font-sans text-sm sm:text-base overflow-x-auto">
                                                 {issue.body}
                                             </pre>
                                         </div>
@@ -640,12 +640,12 @@ export default function IssueIdComp({ issueId }: { issueId: string }) {
                             </div>
 
                             {/* Enhanced comments section */}
-                            <div className="bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-8 hover:border-green-500/30 transition-all duration-300">
-                                <div className="flex items-center justify-between mb-8">
-                                    <h2 className="text-2xl font-semibold text-white flex items-center space-x-3">
-                                        <MessageSquare className="w-6 h-6 text-green-400" />
+                            <div className="bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 hover:border-green-500/30 transition-all duration-300">
+                                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8">
+                                    <h2 className="text-xl sm:text-2xl font-semibold text-white flex items-center space-x-2 sm:space-x-3">
+                                        <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6 text-green-400" />
                                         <span>Discussion</span>
-                                        <span className="bg-green-500/10 text-green-300 px-3 py-1 rounded-full text-sm border border-green-500/20">
+                                        <span className="bg-green-500/10 text-green-300 px-2 sm:px-3 py-1 rounded-full text-sm border border-green-500/20">
                                             {issue.comments.length}
                                         </span>
                                     </h2>
@@ -656,7 +656,7 @@ export default function IssueIdComp({ issueId }: { issueId: string }) {
                                                     !showCommentForm
                                                 )
                                             }
-                                            className={`flex items-center space-x-2 px-4 py-2 rounded-xl font-medium transition-all duration-200 hover:scale-105 cursor-pointer ${
+                                            className={`flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-xl font-medium transition-all duration-200 hover:scale-105 cursor-pointer text-sm sm:text-base ${
                                                 showCommentForm
                                                     ? "bg-red-500/10 text-red-300 border border-red-500/20 hover:bg-red-500/20"
                                                     : "bg-blue-500/10 text-blue-300 border border-blue-500/20 hover:bg-blue-500/20"
@@ -670,7 +670,12 @@ export default function IssueIdComp({ issueId }: { issueId: string }) {
                                             ) : (
                                                 <>
                                                     <Plus className="w-4 h-4" />
-                                                    <span>Add Comment</span>
+                                                    <span className="hidden sm:inline">
+                                                        Add Comment
+                                                    </span>
+                                                    <span className="sm:hidden">
+                                                        Add
+                                                    </span>
                                                 </>
                                             )}
                                         </button>
@@ -679,12 +684,12 @@ export default function IssueIdComp({ issueId }: { issueId: string }) {
 
                                 {/* Enhanced comment form */}
                                 {showCommentForm && currentUser && (
-                                    <div className="mb-8 p-6 bg-slate-800/30 rounded-xl border border-slate-700/30">
-                                        <div className="flex items-start space-x-4">
+                                    <div className="mb-6 sm:mb-8 p-4 sm:p-6 bg-slate-800/30 rounded-xl border border-slate-700/30">
+                                        <div className="flex flex-col sm:flex-row sm:items-start space-y-3 sm:space-y-0 sm:space-x-4">
                                             <img
                                                 src={currentUser.image}
                                                 alt={currentUser.name}
-                                                className="w-10 h-10 rounded-full border-2 border-indigo-500/30"
+                                                className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-indigo-500/30 self-start"
                                             />
                                             <div className="flex-1">
                                                 <textarea
@@ -695,7 +700,7 @@ export default function IssueIdComp({ issueId }: { issueId: string }) {
                                                         )
                                                     }
                                                     placeholder="Share your thoughts..."
-                                                    className="w-full p-4 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 resize-none focus:outline-none focus:border-indigo-500/50 focus:ring-2 focus:ring-indigo-500/20 transition-all duration-200"
+                                                    className="w-full p-3 sm:p-4 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 resize-none focus:outline-none focus:border-indigo-500/50 focus:ring-2 focus:ring-indigo-500/20 transition-all duration-200 text-sm sm:text-base"
                                                     rows={4}
                                                     disabled={submittingComment}
                                                 />
@@ -706,15 +711,18 @@ export default function IssueIdComp({ issueId }: { issueId: string }) {
                                                             !newComment.trim() ||
                                                             submittingComment
                                                         }
-                                                        className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 disabled:from-slate-600 disabled:to-slate-700 text-white font-medium rounded-xl transition-all duration-200 hover:scale-105 disabled:scale-100 disabled:cursor-not-allowed shadow-lg cursor-pointer"
+                                                        className="flex items-center space-x-2 px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 disabled:from-slate-600 disabled:to-slate-700 text-white font-medium rounded-xl transition-all duration-200 hover:scale-105 disabled:scale-100 disabled:cursor-not-allowed shadow-lg cursor-pointer text-sm sm:text-base"
                                                     >
                                                         {submittingComment ? (
                                                             <Loader2 className="w-4 h-4 animate-spin" />
                                                         ) : (
                                                             <Send className="w-4 h-4" />
                                                         )}
-                                                        <span>
+                                                        <span className="hidden sm:inline">
                                                             Post Comment
+                                                        </span>
+                                                        <span className="sm:hidden">
+                                                            Post
                                                         </span>
                                                     </button>
                                                 </div>
@@ -725,15 +733,15 @@ export default function IssueIdComp({ issueId }: { issueId: string }) {
 
                                 {/* Enhanced comments list */}
                                 {issue.comments.length > 0 ? (
-                                    <div className="space-y-6">
+                                    <div className="space-y-4 sm:space-y-6">
                                         {issue.comments.map(
                                             (comment, index) => (
                                                 <div
                                                     key={index}
                                                     className="group relative"
                                                 >
-                                                    <div className="absolute left-5 top-12 bottom-0 w-px bg-gradient-to-b from-slate-600/50 to-transparent"></div>
-                                                    <div className="flex items-start space-x-4 relative">
+                                                    <div className="absolute left-4 sm:left-5 top-10 sm:top-12 bottom-0 w-px bg-gradient-to-b from-slate-600/50 to-transparent"></div>
+                                                    <div className="flex items-start space-x-3 sm:space-x-4 relative">
                                                         <img
                                                             src={
                                                                 comment.user
@@ -743,19 +751,19 @@ export default function IssueIdComp({ issueId }: { issueId: string }) {
                                                                 comment.user
                                                                     .name
                                                             }
-                                                            className="w-10 h-10 rounded-full border-2 border-slate-600/50 group-hover:border-indigo-500/30 transition-all duration-200 relative z-10 bg-slate-900"
+                                                            className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-slate-600/50 group-hover:border-indigo-500/30 transition-all duration-200 relative z-10 bg-slate-900 flex-shrink-0"
                                                         />
-                                                        <div className="flex-1 bg-slate-800/30 border border-slate-700/30 rounded-xl p-5 group-hover:border-indigo-500/20 transition-all duration-200">
-                                                            <div className="flex items-baseline justify-between mb-3">
-                                                                <div className="flex items-center space-x-3">
-                                                                    <span className="font-semibold text-white">
+                                                        <div className="flex-1 bg-slate-800/30 border border-slate-700/30 rounded-xl p-3 sm:p-5 group-hover:border-indigo-500/20 transition-all duration-200 min-w-0">
+                                                            <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 sm:gap-0 mb-2 sm:mb-3">
+                                                                <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3">
+                                                                    <span className="font-semibold text-white text-sm sm:text-base">
                                                                         {
                                                                             comment
                                                                                 .user
                                                                                 .name
                                                                         }
                                                                     </span>
-                                                                    <span className="text-xs text-slate-400 bg-slate-700/50 px-2 py-1 rounded-full">
+                                                                    <span className="text-xs text-slate-400 bg-slate-700/50 px-2 py-1 rounded-full w-fit">
                                                                         {formatRelativeTime(
                                                                             comment.createdAt
                                                                         )}
@@ -774,7 +782,7 @@ export default function IssueIdComp({ issueId }: { issueId: string }) {
                                                                             deletingCommentId ===
                                                                             comment.id
                                                                         }
-                                                                        className="text-slate-400 hover:text-red-400 transition-colors p-1 rounded-lg hover:bg-red-500/10 cursor-pointer"
+                                                                        className="text-slate-400 hover:text-red-400 transition-colors p-1 rounded-lg hover:bg-red-500/10 cursor-pointer self-start sm:self-auto"
                                                                     >
                                                                         {deletingCommentId ===
                                                                         comment.id ? (
@@ -786,7 +794,7 @@ export default function IssueIdComp({ issueId }: { issueId: string }) {
                                                                 )}
                                                             </div>
                                                             <div className="text-slate-300 leading-relaxed">
-                                                                <pre className="whitespace-pre-wrap font-sans text-sm">
+                                                                <pre className="whitespace-pre-wrap font-sans text-sm sm:text-base overflow-x-auto">
                                                                     {
                                                                         comment.comment
                                                                     }
@@ -799,12 +807,12 @@ export default function IssueIdComp({ issueId }: { issueId: string }) {
                                         )}
                                     </div>
                                 ) : (
-                                    <div className="text-center py-12">
-                                        <MessageSquare className="w-12 h-12 mx-auto mb-4 text-slate-500" />
-                                        <p className="text-slate-400 text-lg">
+                                    <div className="text-center py-8 sm:py-12">
+                                        <MessageSquare className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 sm:mb-4 text-slate-500" />
+                                        <p className="text-slate-400 text-base sm:text-lg">
                                             No comments yet
                                         </p>
-                                        <p className="text-slate-500 mt-1">
+                                        <p className="text-slate-500 mt-1 text-sm sm:text-base">
                                             Be the first to share your thoughts!
                                         </p>
                                     </div>
