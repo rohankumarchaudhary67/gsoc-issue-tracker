@@ -29,7 +29,7 @@ interface GitHubIssue {
         html_url: string;
         diff_url: string;
         patch_url: string;
-    }; // present if the issue is a PR
+    };
 }
 
 // For App Router
@@ -49,11 +49,11 @@ export async function GET(request: NextRequest) {
             new Date().toISOString()
         );
 
-        // Fetch issues from GitHub
-        const issues = await fetchGitHubIssues();
+        // Fetch issues from GitHub (parallel processing)
+        const issues = await fetchGitHubIssuesParallel();
 
-        // Store issues in database
-        const savedCount = await storeIssuesInDatabase(issues);
+        // Store issues in database (batch processing)
+        const savedCount = await storeIssuesInDatabaseBatch(issues);
 
         console.log(`Successfully processed ${savedCount} issues`);
 
@@ -79,7 +79,7 @@ export async function GET(request: NextRequest) {
     }
 }
 
-async function fetchGitHubIssues(): Promise<GitHubIssue[]> {
+async function fetchGitHubIssuesParallel(): Promise<GitHubIssue[]> {
     const repos = repoList;
     const token = process.env.GITHUB_TOKEN;
 
@@ -91,20 +91,18 @@ async function fetchGitHubIssues(): Promise<GitHubIssue[]> {
         throw new Error("GITHUB_REPOS environment variable is required");
     }
 
-    const allIssues: GitHubIssue[] = [];
-
-    for (const repo of repos) {
+    // Process all repos in parallel
+    const promises = repos.map(async (repo) => {
         const [owner, repoName] = repo.trim().split("/");
 
         if (!owner || !repoName) {
             console.warn(
                 `Invalid repo format: ${repo}. Expected format: owner/repo`
             );
-            continue;
+            return [];
         }
 
         try {
-            // Fetch ONLY open, unassigned issues from GitHub API
             const response = await fetch(
                 `https://api.github.com/repos/${owner}/${repoName}/issues?state=open&assignee=none&per_page=100&sort=updated&direction=desc`,
                 {
@@ -118,97 +116,144 @@ async function fetchGitHubIssues(): Promise<GitHubIssue[]> {
             );
 
             if (!response.ok) {
-                throw new Error(
-                    `GitHub API error: ${response.status} ${response.statusText}`
+                console.error(
+                    `GitHub API error for ${owner}/${repoName}: ${response.status} ${response.statusText}`
                 );
+                return [];
             }
 
             const issues = (await response.json()) as GitHubIssue[];
 
-            // Filter out pull requests (GitHub API returns PRs as issues)
-            // Also double-check that assignees array is empty (extra safety)
-            const actualIssues = issues.filter(
-                (issue: GitHubIssue) =>
-                    !issue.pull_request &&
-                    issue.assignees.length === 0 &&
-                    issue.state === "open"
-            );
-
-            // Add repo information to each issue
-            const issuesWithRepo = actualIssues.map((issue: GitHubIssue) => ({
-                ...issue,
-                repository: {
-                    owner: owner,
-                    name: repoName,
-                    full_name: `${owner}/${repoName}`,
-                },
-            }));
-
-            allIssues.push(...issuesWithRepo);
+            // Filter out pull requests and add repo info
+            const actualIssues = issues
+                .filter(
+                    (issue: GitHubIssue) =>
+                        !issue.pull_request &&
+                        issue.assignees.length === 0 &&
+                        issue.state === "open"
+                )
+                .map((issue: GitHubIssue) => ({
+                    ...issue,
+                    repository: {
+                        owner: owner,
+                        name: repoName,
+                        full_name: `${owner}/${repoName}`,
+                    },
+                }));
 
             console.log(
                 `Fetched ${actualIssues.length} open, unassigned issues from ${owner}/${repoName}`
             );
+
+            return actualIssues;
         } catch (error) {
             console.error(
                 `Error fetching issues from ${owner}/${repoName}:`,
                 error
             );
-            // Continue with other repos even if one fails
+            return [];
         }
-    }
+    });
 
-    return allIssues;
+    // Wait for all API calls to complete
+    const results = await Promise.allSettled(promises);
+
+    // Flatten results and filter out failed ones
+    return results
+        .filter(
+            (result): result is PromiseFulfilledResult<GitHubIssue[]> =>
+                result.status === "fulfilled"
+        )
+        .flatMap((result) => result.value);
 }
 
-async function storeIssuesInDatabase(issues: GitHubIssue[]): Promise<number> {
-    let savedCount = 0;
+async function storeIssuesInDatabaseBatch(
+    issues: GitHubIssue[]
+): Promise<number> {
+    if (issues.length === 0) return 0;
 
-    for (const issue of issues) {
-        try {
-            const [owner, repoName] = issue.repository.full_name.split("/");
+    try {
+        // Step 1: Get unique organizations and repos
+        const uniqueOrgs = [
+            ...new Set(issues.map((issue) => issue.repository.owner)),
+        ];
+        const uniqueRepos = [
+            ...new Set(issues.map((issue) => issue.repository.full_name)),
+        ];
 
-            // First, ensure the organization exists
-            let organization = await prisma.organization.findUnique({
-                where: { name: owner },
+        // Step 2: Batch create/find organizations
+        const orgMap = new Map<string, string>(); // orgName -> orgId
+
+        for (const orgName of uniqueOrgs) {
+            let org = await prisma.organization.findUnique({
+                where: { name: orgName },
             });
 
-            if (!organization) {
-                organization = await prisma.organization.create({
+            if (!org) {
+                org = await prisma.organization.create({
                     data: {
-                        name: owner,
-                        description: `GitHub organization: ${owner}`,
+                        name: orgName,
+                        description: `GitHub organization: ${orgName}`,
                     },
                 });
-                console.log(`Created organization: ${owner}`);
+                console.log(`Created organization: ${orgName}`);
             }
 
-            // Then, ensure the repository exists
+            orgMap.set(orgName, org.id);
+        }
+
+        // Step 3: Batch create/find repositories
+        const repoMap = new Map<string, string>(); // fullName -> repoId
+
+        for (const fullName of uniqueRepos) {
+            const [owner, repoName] = fullName.split("/");
+            const orgId = orgMap.get(owner);
+
+            if (!orgId) continue;
+
             let repo = await prisma.repo.findFirst({
                 where: {
                     name: repoName,
-                    organizationId: organization.id,
+                    organizationId: orgId,
                 },
             });
 
             if (!repo) {
-                // You might want to fetch additional repo info from GitHub API here
-                // For now, we'll create with minimal info
                 repo = await prisma.repo.create({
                     data: {
                         name: repoName,
-                        organizationId: organization.id,
-                        language: [], // You could fetch this from GitHub API
-                        difficulty: "EASY", // Default difficulty
+                        organizationId: orgId,
+                        language: [],
+                        difficulty: "EASY",
                     },
                 });
-                console.log(`Created repo: ${owner}/${repoName}`);
+                console.log(`Created repo: ${fullName}`);
             }
 
-            // Check if issue already exists
-            const existingIssue = await prisma.issue.findUnique({
-                where: { githubId: BigInt(issue.id) },
-            });
+            repoMap.set(fullName, repo.id);
+        }
+
+        // Step 4: Get existing issues in one query
+        const githubIds = issues.map((issue) => BigInt(issue.id));
+        const existingIssues = await prisma.issue.findMany({
+            where: {
+                githubId: { in: githubIds },
+            },
+            select: { githubId: true },
+        });
+
+        const existingIssueIds = new Set(
+            existingIssues.map((issue) => issue.githubId.toString())
+        );
+
+        // Step 5: Prepare data for batch operations
+        const issuesToCreate = [];
+        const issuesToUpdate = [];
+        const orgIssueCountUpdates = new Map<string, number>();
+
+        for (const issue of issues) {
+            const repoId = repoMap.get(issue.repository.full_name);
+            if (!repoId) continue;
 
             const issueData = {
                 githubId: BigInt(issue.id),
@@ -219,38 +264,68 @@ async function storeIssuesInDatabase(issues: GitHubIssue[]): Promise<number> {
                 html_url: issue.html_url,
                 comments_count: issue.comments,
                 labels: issue.labels.map((label) => label.name),
-                repoId: repo.id,
+                repoId: repoId,
             };
 
-            if (existingIssue) {
-                // Update existing issue
-                await prisma.issue.update({
+            if (existingIssueIds.has(issue.id.toString())) {
+                issuesToUpdate.push({
                     where: { githubId: BigInt(issue.id) },
                     data: issueData,
                 });
             } else {
-                // Create new issue
-                await prisma.issue.create({
-                    data: issueData,
-                });
+                issuesToCreate.push(issueData);
+
+                // Count new issues per organization
+                const orgId = orgMap.get(issue.repository.owner);
+                if (orgId) {
+                    orgIssueCountUpdates.set(
+                        orgId,
+                        (orgIssueCountUpdates.get(orgId) || 0) + 1
+                    );
+                }
             }
-
-            // Update organization's open issues count
-            await prisma.organization.update({
-                where: { id: organization.id },
-                data: {
-                    openIssues: {
-                        increment: existingIssue ? 0 : 1,
-                    },
-                },
-            });
-
-            savedCount++;
-        } catch (error) {
-            console.error(`Error saving issue ${issue.id}:`, error);
-            // Continue with other issues even if one fails
         }
-    }
 
-    return savedCount;
+        // Step 6: Execute batch operations
+        let savedCount = 0;
+
+        // Batch create new issues
+        if (issuesToCreate.length > 0) {
+            const batchSize = 100; // Adjust based on your needs
+            for (let i = 0; i < issuesToCreate.length; i += batchSize) {
+                const batch = issuesToCreate.slice(i, i + batchSize);
+                await prisma.issue.createMany({
+                    data: batch,
+                    skipDuplicates: true,
+                });
+                savedCount += batch.length;
+            }
+        }
+
+        // Batch update existing issues
+        if (issuesToUpdate.length > 0) {
+            await prisma.$transaction(
+                issuesToUpdate.map((update) => prisma.issue.update(update))
+            );
+            savedCount += issuesToUpdate.length;
+        }
+
+        // Update organization issue counts
+        if (orgIssueCountUpdates.size > 0) {
+            const orgUpdatePromises = Array.from(
+                orgIssueCountUpdates.entries()
+            ).map(([orgId, count]) =>
+                prisma.organization.update({
+                    where: { id: orgId },
+                    data: { openIssues: { increment: count } },
+                })
+            );
+            await Promise.all(orgUpdatePromises);
+        }
+
+        return savedCount;
+    } catch (error) {
+        console.error("Error in batch database operations:", error);
+        throw error;
+    }
 }
