@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import repoList from "@/data/repo";
 
 interface GitHubIssue {
     id: number;
@@ -79,7 +80,7 @@ export async function GET(request: NextRequest) {
 }
 
 async function fetchGitHubIssues(): Promise<GitHubIssue[]> {
-    const repos = process.env.GITHUB_REPOS?.split(",") || [];
+    const repos = repoList;
     const token = process.env.GITHUB_TOKEN;
 
     if (!token) {
