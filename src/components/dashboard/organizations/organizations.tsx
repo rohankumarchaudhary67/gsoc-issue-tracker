@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { TrendingUp, ArrowRight, Plus, Star, Loader2 } from "lucide-react";
 import axios, { AxiosError } from "axios";
+import Link from "next/link";
 
 interface Organization {
     id: string;
@@ -229,7 +230,8 @@ export default function Organizations() {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {organizations.accessedOrganizations.map((org) => (
-                            <div
+                            <Link
+                                href={`/organizations/${org.id}`}
                                 key={org.id}
                                 className="bg-gradient-to-br from-yellow-500/10 to-yellow-600/5 backdrop-blur-sm border border-yellow-500/30 rounded-2xl p-6 hover:border-yellow-400/50 transition-all group cursor-pointer"
                             >
@@ -264,7 +266,7 @@ export default function Organizations() {
                                         <ArrowRight className="w-4 h-4" />
                                     </button>
                                 </div>
-                            </div>
+                            </Link>
                         ))}
                     </div>
                 </div>

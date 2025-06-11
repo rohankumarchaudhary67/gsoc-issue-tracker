@@ -1,3 +1,5 @@
+import OrganizationId from "@/components/dashboard/organizations/organizationId";
+
 export default async function OrganizationIdPage({
     params,
 }: {
@@ -7,7 +9,7 @@ export default async function OrganizationIdPage({
 
     return (
         <>
-            <h1>Organization ID: {organizationId}</h1>
+            <OrganizationId organizationId={organizationId} />
         </>
     );
 }
